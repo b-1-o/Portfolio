@@ -75,6 +75,67 @@ a { color: inherit; text-decoration: none; }
   opacity: .75;
 }
 
+.beam-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  mix-blend-mode: screen;
+  opacity: .85;
+}
+
+.beam {
+  position: absolute;
+  left: 16%;
+  width: 72vw;
+  height: 1px;
+  transform-origin: left center;
+  background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0) 15%, rgba(255,255,255,.72) 47%, rgba(255,255,255,.08) 76%, transparent 100%);
+  box-shadow: 0 0 18px rgba(255,255,255,.18), 0 0 42px rgba(131,0,255,.1);
+  opacity: 0;
+  filter: blur(.2px);
+}
+
+.beam-a { top: 20%; transform: rotate(12deg); animation: beamA 9s ease-in-out infinite; }
+.beam-b { top: 34%; transform: rotate(-9deg); animation: beamB 11s ease-in-out infinite -2s; }
+.beam-c { top: 49%; transform: rotate(6deg); animation: beamC 8s ease-in-out infinite -4s; }
+.beam-d { top: 63%; transform: rotate(-13deg); animation: beamD 12s ease-in-out infinite -1s; }
+.beam-e { top: 79%; transform: rotate(8deg); animation: beamE 10s ease-in-out infinite -5s; }
+
+@keyframes beamA {
+  0%, 100% { transform: translateX(-26vw) rotate(12deg) scaleX(.65); opacity: 0; }
+  32% { opacity: .5; }
+  53% { transform: translateX(16vw) rotate(12deg) scaleX(1); opacity: .75; }
+  78% { opacity: .08; }
+}
+
+@keyframes beamB {
+  0%, 100% { transform: translateX(35vw) rotate(-9deg) scaleX(.55); opacity: 0; }
+  30% { opacity: .24; }
+  58% { transform: translateX(-18vw) rotate(-9deg) scaleX(1.1); opacity: .58; }
+  84% { opacity: .04; }
+}
+
+@keyframes beamC {
+  0%, 100% { transform: translateX(-18vw) rotate(6deg) scaleX(.72); opacity: 0; }
+  40% { opacity: .3; }
+  64% { transform: translateX(24vw) rotate(6deg) scaleX(1.05); opacity: .7; }
+  86% { opacity: .05; }
+}
+
+@keyframes beamD {
+  0%, 100% { transform: translateX(28vw) rotate(-13deg) scaleX(.6); opacity: 0; }
+  35% { opacity: .24; }
+  61% { transform: translateX(-14vw) rotate(-13deg) scaleX(1.1); opacity: .52; }
+  88% { opacity: .04; }
+}
+
+@keyframes beamE {
+  0%, 100% { transform: translateX(-30vw) rotate(8deg) scaleX(.7); opacity: 0; }
+  36% { opacity: .18; }
+  60% { transform: translateX(20vw) rotate(8deg) scaleX(1); opacity: .46; }
+  90% { opacity: .03; }
+}
+
 .ray-field {
   position: absolute;
   inset: 0;
