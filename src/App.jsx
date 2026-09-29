@@ -27,20 +27,31 @@ function projectIcon(iconKey) {
   const glyph = ICON_PATHS[iconKey] || ICON_PATHS.web;
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900">
   <defs>
-    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="rgba(255,255,255,0.14)"/>
-      <stop offset="45%" stop-color="rgba(180,175,200,0.08)"/>
-      <stop offset="100%" stop-color="rgba(255,255,255,0.03)"/>
+    <linearGradient id="glass" x1="0" y1="0" x2="0.85" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.28)"/>
+      <stop offset="35%" stop-color="rgba(255,255,255,0.12)"/>
+      <stop offset="100%" stop-color="rgba(200,195,220,0.06)"/>
     </linearGradient>
-    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="rgba(255,255,255,0.18)"/>
-      <stop offset="40%" stop-color="rgba(255,255,255,0)"/>
+    <linearGradient id="sheen" x1="0.2" y1="0" x2="0.8" y2="0.55">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.42)"/>
+      <stop offset="55%" stop-color="rgba(255,255,255,0.04)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
     </linearGradient>
+    <filter id="soft" x="-8%" y="-8%" width="116%" height="116%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2" result="b"/>
+      <feOffset dy="1" result="o"/>
+      <feFlood flood-color="rgba(0,0,0,0.25)"/>
+      <feComposite in2="o" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
   </defs>
-  <rect width="720" height="900" fill="#14141a"/>
-  <rect x="20" y="20" width="680" height="860" rx="44" fill="url(#glass)" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
-  <rect x="20" y="20" width="680" height="280" rx="44" fill="url(#sheen)"/>
-  <g transform="translate(360 430) scale(9.5) translate(-12 -12)" fill="none" stroke="rgba(255,255,255,0.82)" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round">
+  <rect x="28" y="28" width="664" height="844" rx="48" fill="url(#glass)" stroke="rgba(255,255,255,0.38)" stroke-width="1.25" filter="url(#soft)"/>
+  <rect x="28" y="28" width="664" height="300" rx="48" fill="url(#sheen)"/>
+  <rect x="36" y="36" width="648" height="1.5" fill="rgba(255,255,255,0.35)" opacity="0.7"/>
+  <g transform="translate(360 430) scale(9.2) translate(-12 -12)" fill="none" stroke="rgba(255,255,255,0.92)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
     ${glyph}
   </g>
 </svg>`;
