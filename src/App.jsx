@@ -8,19 +8,41 @@ import sfxNav from '../assets/Squiggle_Nothing_Phone_1_Stock_Notification-645458
 import sfxRefresh from '../assets/Bulb_One_Nothing_Phone_2_Stock_Notification-649453-mobiles24.mp3';
 import sfxError from '../assets/Lonba_Nothing_Phone_2_Stock_Notification-649461-mobiles24.mp3';
 
-function projectIcon(label) {
-  const initials = String(label || '?').slice(0, 2).toUpperCase();
+const ICON_PATHS = {
+  music: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+  phone: '<rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18h2"/>',
+  web: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+  linux: '<path d="M4 17h16M6 17l1.5-9.5a4.5 4.5 0 0 1 9 0L18 17"/><path d="M9 8.5c.5-1 1.5-1.5 3-1.5s2.5.5 3 1.5"/><circle cx="9.5" cy="11" r=".6" fill="currentColor" stroke="none"/><circle cx="14.5" cy="11" r=".6" fill="currentColor" stroke="none"/>',
+  fog: '<path d="M4 14c2-4 4-6 8-6s6 2 8 6"/><path d="M4 10c2.5-3 5-4.5 8-4.5s5.5 1.5 8 4.5"/><path d="M6 18c1.5-2 3.5-3 6-3s4.5 1 6 3"/>',
+  forest: '<path d="M12 22v-6"/><path d="M8 22h8"/><path d="M12 3l5 8H7l5-8z"/><path d="M12 9l4.5 7h-9L12 9z"/>',
+  terminal: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M12 15h5"/>',
+  sleep: '<path d="M12 3a9 9 0 1 0 9 9c0-4-3-7-7-8 1 2 1 4 0 6a5 5 0 0 1-6-6c2 1 4 1 6 0z"/>',
+  scissors: '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4L8.5 15.5M8.5 8.5L20 20"/>',
+  brand: '<path d="M12 2l3 7h7l-5.5 4.5L18.5 22 12 17l-6.5 5 1.5-8.5L2 9h7l3-7z"/>',
+  build: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>',
+  agent: '<rect x="5" y="8" width="14" height="10" rx="2"/><path d="M9 8V6a3 3 0 0 1 6 0v2M9 13h.01M15 13h.01M10 16h4"/>',
+};
+
+function projectIcon(iconKey) {
+  const glyph = ICON_PATHS[iconKey] || ICON_PATHS.web;
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#2a2832"/>
-      <stop offset="50%" stop-color="#2e2a36"/>
-      <stop offset="100%" stop-color="#252430"/>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.14)"/>
+      <stop offset="45%" stop-color="rgba(180,175,200,0.08)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.03)"/>
+    </linearGradient>
+    <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.18)"/>
+      <stop offset="40%" stop-color="rgba(255,255,255,0)"/>
     </linearGradient>
   </defs>
-  <rect width="720" height="900" fill="#1a1a20"/>
-  <rect x="24" y="24" width="672" height="852" rx="48" fill="url(#bg)" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
-  <text x="360" y="480" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="140" font-weight="600" fill="rgba(255,255,255,0.78)" letter-spacing="-4">${initials}</text>
+  <rect width="720" height="900" fill="#14141a"/>
+  <rect x="20" y="20" width="680" height="860" rx="44" fill="url(#glass)" stroke="rgba(255,255,255,0.18)" stroke-width="1.5"/>
+  <rect x="20" y="20" width="680" height="280" rx="44" fill="url(#sheen)"/>
+  <g transform="translate(360 430) scale(9.5) translate(-12 -12)" fill="none" stroke="rgba(255,255,255,0.82)" stroke-width="1.15" stroke-linecap="round" stroke-linejoin="round">
+    ${glyph}
+  </g>
 </svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
@@ -33,18 +55,18 @@ const SFX = {
 };
 
 const projects = [
-  { id: '01', name: 'music', kind: 'WEB · MUSIC', blurb: 'Local-first music player with YouTube search, playlists, queue, likes and atmospheric playback controls.', detail: 'Built as a visual world around sound — history, shuffle and appearance stay in the browser with no account required.', stack: ['React', 'TypeScript', 'YouTube API', 'Web Audio'], repo: 'https://github.com/b-1-o/music', site: 'https://b-1-o.github.io/music/' },
-  { id: '02', name: 'heaven', kind: 'WEB · TOOLING', blurb: 'Developer command center — launch workflows, tools and environments from one surface.', detail: 'A focused UI for daily developer routines: open groups of URLs, scripts and apps without leaving the browser.', stack: ['TypeScript', 'React', 'Vite'], repo: 'https://github.com/b-1-o/heaven', site: 'https://b-1-o.github.io/heaven/' },
-  { id: '03', name: 'fog', kind: 'WEB · INTERACTION', blurb: 'Layered depth and a draggable 3D carousel — the visual grammar behind atmospheric UIs.', detail: 'Interaction experiment that explores motion, opacity and perspective as a shared language across portfolio surfaces.', stack: ['React', '3D CSS', 'Motion'], repo: 'https://github.com/b-1-o/fog', site: 'https://b-1-o.github.io/fog/' },
-  { id: '04', name: 'forest', kind: 'WEB · EXPERIENCE', blurb: 'Immersive forest portfolio experiment with motion and environmental mood.', detail: 'A narrative web experience where navigation feels like walking through layers of canopy and light.', stack: ['React', 'TypeScript', 'CSS'], repo: 'https://github.com/b-1-o/forest', site: 'https://b-1-o.github.io/forest/' },
-  { id: '05', name: 'biohub', kind: 'LINUX · PRODUCTIVITY', blurb: 'Local Linux command center for apps, URL groups and repeatable workflows.', detail: 'Terminal + desktop interfaces via Python — FastAPI, Typer and PySide6 for launching real work, not demos.', stack: ['Python', 'FastAPI', 'Typer', 'PySide6'], repo: 'https://github.com/b-1-o/biohub' },
-  { id: '06', name: 'Biogram', kind: 'IOS · MESSAGING', blurb: 'Native iOS Telegram client work — builds, signing, Bazel and Telegram architecture.', detail: 'Deep dive into native mobile: configuration, signing pipelines and the structure of a large messaging codebase.', stack: ['Swift', 'iOS', 'Xcode', 'Bazel'], repo: 'https://github.com/b-1-o/Biogram-iOS-26' },
-  { id: '07', name: 's1eep', kind: 'WEB · SURFACE', blurb: 'This site — quiet digital room with pointer-driven water distortion and low-light HUD.', detail: 'React Bits RippleDistortion, custom glass UI, Nothing Phone system sounds and a portfolio layer on top.', stack: ['React', 'WebGL', 'ogl', 'Vite'], repo: 'https://github.com/b-1-o/s1eep', site: 'https://b-1-o.github.io/s1eep/' },
-  { id: '08', name: 'barber', kind: 'WEB · PRODUCT', blurb: 'Barbershop product surface — booking-minded UI in TypeScript.', detail: 'Clean product patterns for service businesses: services, availability and a calm conversion-focused layout.', stack: ['TypeScript', 'React'], repo: 'https://github.com/b-1-o/barber' },
-  { id: '09', name: 'my', kind: 'WEB · PORTFOLIO', blurb: 'Earlier personal space with spiral carousel and image-driven navigation.', detail: 'Atmospheric portfolio built around depth, motion and a foggy visual rhythm.', stack: ['React', 'TypeScript', 'CSS', 'Motion'], repo: 'https://github.com/b-1-o/my', site: 'https://b-1-o.github.io/my/' },
-  { id: '10', name: 'Benzola', kind: 'WEB · BRAND', blurb: 'Brand-forward web surface in TypeScript with deliberate motion.', detail: 'Experiment in product identity — typography, pacing and restrained interaction.', stack: ['TypeScript', 'React'], repo: 'https://github.com/b-1-o/Benzola' },
-  { id: '11', name: 'build', kind: 'WEB · SYSTEMS', blurb: 'Build tooling and system surfaces for shipping faster.', detail: 'Internal-facing tools that keep deployment and local workflows predictable.', stack: ['TypeScript', 'Vite'], repo: 'https://github.com/b-1-o/build' },
-  { id: '12', name: 'b1o-remote-agent', kind: 'PYTHON · AGENT', blurb: 'Remote agent experiments in Python for automation and tooling.', detail: 'Exploring agent loops, remote control surfaces and practical automation helpers.', stack: ['Python'], repo: 'https://github.com/b-1-o/b1o-remote-agent' },
+  { id: '01', name: 'music', icon: 'music', kind: 'WEB · MUSIC', blurb: 'Local-first music player with YouTube search, playlists, queue, likes and atmospheric playback controls.', detail: 'Built as a visual world around sound — history, shuffle and appearance stay in the browser with no account required.', stack: ['React', 'TypeScript', 'YouTube API', 'Web Audio'], repo: 'https://github.com/b-1-o/music', site: 'https://b-1-o.github.io/music/' },
+  { id: '02', name: 'heaven', icon: 'terminal', kind: 'WEB · TOOLING', blurb: 'Developer command center — launch workflows, tools and environments from one surface.', detail: 'A focused UI for daily developer routines: open groups of URLs, scripts and apps without leaving the browser.', stack: ['TypeScript', 'React', 'Vite'], repo: 'https://github.com/b-1-o/heaven', site: 'https://b-1-o.github.io/heaven/' },
+  { id: '03', name: 'fog', icon: 'fog', kind: 'WEB · INTERACTION', blurb: 'Layered depth and a draggable 3D carousel — the visual grammar behind atmospheric UIs.', detail: 'Interaction experiment that explores motion, opacity and perspective as a shared language across portfolio surfaces.', stack: ['React', '3D CSS', 'Motion'], repo: 'https://github.com/b-1-o/fog', site: 'https://b-1-o.github.io/fog/' },
+  { id: '04', name: 'forest', icon: 'forest', kind: 'WEB · EXPERIENCE', blurb: 'Immersive forest portfolio experiment with motion and environmental mood.', detail: 'A narrative web experience where navigation feels like walking through layers of canopy and light.', stack: ['React', 'TypeScript', 'CSS'], repo: 'https://github.com/b-1-o/forest', site: 'https://b-1-o.github.io/forest/' },
+  { id: '05', name: 'biohub', icon: 'linux', kind: 'LINUX · PRODUCTIVITY', blurb: 'Local Linux command center for apps, URL groups and repeatable workflows.', detail: 'Terminal + desktop interfaces via Python — FastAPI, Typer and PySide6 for launching real work, not demos.', stack: ['Python', 'FastAPI', 'Typer', 'PySide6'], repo: 'https://github.com/b-1-o/biohub' },
+  { id: '06', name: 'Biogram', icon: 'phone', kind: 'IOS · MESSAGING', blurb: 'Native iOS Telegram client work — builds, signing, Bazel and Telegram architecture.', detail: 'Deep dive into native mobile: configuration, signing pipelines and the structure of a large messaging codebase.', stack: ['Swift', 'iOS', 'Xcode', 'Bazel'], repo: 'https://github.com/b-1-o/Biogram-iOS-26' },
+  { id: '07', name: 's1eep', icon: 'sleep', kind: 'WEB · SURFACE', blurb: 'This site — quiet digital room with pointer-driven water distortion and low-light HUD.', detail: 'React Bits RippleDistortion, custom glass UI, Nothing Phone system sounds and a portfolio layer on top.', stack: ['React', 'WebGL', 'ogl', 'Vite'], repo: 'https://github.com/b-1-o/s1eep', site: 'https://b-1-o.github.io/s1eep/' },
+  { id: '08', name: 'barber', icon: 'scissors', kind: 'WEB · PRODUCT', blurb: 'Barbershop product surface — booking-minded UI in TypeScript.', detail: 'Clean product patterns for service businesses: services, availability and a calm conversion-focused layout.', stack: ['TypeScript', 'React'], repo: 'https://github.com/b-1-o/barber' },
+  { id: '09', name: 'my', icon: 'web', kind: 'WEB · PORTFOLIO', blurb: 'Earlier personal space with spiral carousel and image-driven navigation.', detail: 'Atmospheric portfolio built around depth, motion and a foggy visual rhythm.', stack: ['React', 'TypeScript', 'CSS', 'Motion'], repo: 'https://github.com/b-1-o/my', site: 'https://b-1-o.github.io/my/' },
+  { id: '10', name: 'Benzola', icon: 'brand', kind: 'WEB · BRAND', blurb: 'Brand-forward web surface in TypeScript with deliberate motion.', detail: 'Experiment in product identity — typography, pacing and restrained interaction.', stack: ['TypeScript', 'React'], repo: 'https://github.com/b-1-o/Benzola' },
+  { id: '11', name: 'build', icon: 'build', kind: 'WEB · SYSTEMS', blurb: 'Build tooling and system surfaces for shipping faster.', detail: 'Internal-facing tools that keep deployment and local workflows predictable.', stack: ['TypeScript', 'Vite'], repo: 'https://github.com/b-1-o/build' },
+  { id: '12', name: 'b1o-remote-agent', icon: 'agent', kind: 'PYTHON · AGENT', blurb: 'Remote agent experiments in Python for automation and tooling.', detail: 'Exploring agent loops, remote control surfaces and practical automation helpers.', stack: ['Python'], repo: 'https://github.com/b-1-o/b1o-remote-agent' },
 ];
 
 const services = [
@@ -67,7 +89,7 @@ const skills = {
 };
 
 const CAROUSEL_ITEMS = projects.map(p => ({
-  src: projectIcon(p.name),
+  src: projectIcon(p.icon || 'web'),
   alt: p.name,
   title: p.name,
   subtitle: p.kind,
