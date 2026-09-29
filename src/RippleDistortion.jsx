@@ -4,7 +4,7 @@ import { useEffect, useRef } from 'react';
 import { Renderer, Program, Mesh, Geometry, Triangle, Texture, RenderTarget } from 'ogl';
 import './RippleDistortion.css';
 
-const MAX_WAVES = 100;
+const MAX_WAVES = 40;
 const QUALITY_SCALE = { low: 0.4, medium: 0.7, high: 1 };
 const START_SCALE = 1.5;
 const LIFE_CONSTANT = Math.log(500);
@@ -120,7 +120,7 @@ const hexToRGB = hex => {
 };
 
 const RippleDistortion = ({
-  src = 'https://images.unsplash.com/photo-1782977389500-dd7adad33ebe?q=80&w=3416&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaGdlfHx8fGVufDB8fHx8fA%3D%3D',
+  src = 'https://images.unsplash.com/photo-1782977389500-dd7adad33ebe?q=80&w=3416&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
   brushSize = 150,
   strength = 0.2,
   swirl = 1,
@@ -150,7 +150,7 @@ const RippleDistortion = ({
     const mount = mountRef.current;
     if (!mount) return;
     const reduceMotion = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const renderer = new Renderer({ alpha: false, antialias: false, dpr: Math.min(window.devicePixelRatio || 1, 2) });
+    const renderer = new Renderer({ alpha: false, antialias: false, dpr: 1 });
     const gl = renderer.gl;
     gl.clearColor(0, 0, 0, 1);
     const canvas = gl.canvas;
@@ -298,10 +298,16 @@ const RippleDistortion = ({
         scales[i * 2 + 1] = (half / height) * 2;
         opacities[i] = wave.opacity;
       }
+      let activeCount = 0;
+      for (let i = 0; i < MAX_WAVES; i += 1) {
+        if (opacities[i] > 0) activeCount += 1;
+      }
       geometry.attributes.iOffset.needsUpdate = true;
       geometry.attributes.iScale.needsUpdate = true;
       geometry.attributes.iOpacity.needsUpdate = true;
-      renderer.render({ scene: waveMesh, target: displacementTarget, clear: true });
+      if (activeCount > 0) {
+        renderer.render({ scene: waveMesh, target: displacementTarget, clear: true });
+      }
       renderer.render({ scene: compositeMesh });
     };
     raf = requestAnimationFrame(loop);
