@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import RippleDistortion from './RippleDistortion';
 
 const notes = [
@@ -20,8 +20,7 @@ const rays = [
 function App() {
   const [soundOn, setSoundOn] = useState(false);
   const [time, setTime] = useState(() => new Date());
-  const [pointer, setPointer] = useState({ x: 50, y: 50 });
-  const [audio, setAudio] = useState(null);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -29,26 +28,18 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const root = document.documentElement;
     const onMove = event => {
-      setPointer({
-        x: (event.clientX / window.innerWidth) * 100,
-        y: (event.clientY / window.innerHeight) * 100,
-      });
+      root.style.setProperty('--mx', (event.clientX / window.innerWidth) * 100 + '%');
+      root.style.setProperty('--my', (event.clientY / window.innerHeight) * 100 + '%');
     };
 
     window.addEventListener('pointermove', onMove, { passive: true });
     return () => window.removeEventListener('pointermove', onMove);
   }, []);
 
-  useEffect(() => {
-    document.documentElement.style.setProperty('--mx', pointer.x + '%');
-    document.documentElement.style.setProperty('--my', pointer.y + '%');
-  }, [pointer]);
-
   const toggleSound = () => {
-    let current = audio;
-
-    if (!current) {
+    if (!audioRef.current) {
       const AudioContext = window.AudioContext || window.webkitAudioContext;
       if (!AudioContext) return;
 
@@ -67,16 +58,17 @@ function App() {
       oscillator.connect(filter).connect(master).connect(ctx.destination);
       oscillator.start();
 
-      current = { ctx, master };
-      setAudio(current);
+      audioRef.current = { ctx, master };
     }
 
+    const audio = audioRef.current;
+
     if (soundOn) {
-      current.master.gain.setTargetAtTime(0, current.ctx.currentTime, 0.45);
+      audio.master.gain.setTargetAtTime(0, audio.ctx.currentTime, 0.45);
       setSoundOn(false);
     } else {
-      current.ctx.resume();
-      current.master.gain.setTargetAtTime(0.025, current.ctx.currentTime, 0.8);
+      audio.ctx.resume();
+      audio.master.gain.setTargetAtTime(0.025, audio.ctx.currentTime, 0.8);
       setSoundOn(true);
     }
   };
@@ -112,6 +104,13 @@ function App() {
         />
         <div className="image-dimmer" />
         <div className="pointer-halo" />
+        <div className="beam-field" aria-hidden="true">
+          <span className="beam beam-a" />
+          <span className="beam beam-b" />
+          <span className="beam beam-c" />
+          <span className="beam beam-d" />
+          <span className="beam beam-e" />
+        </div>
         <div className="ray-field">
           <svg viewBox="0 0 100 100" preserveAspectRatio="none">
             <defs>
@@ -120,7 +119,8 @@ function App() {
               </filter>
               <linearGradient id="rayGradient" x1="0" y1="1" x2="0.5" y2="0">
                 <stop offset="0%" stopColor="white" stopOpacity="0" />
-                <stop offset="45%" stopColor="white" stopOpacity="0.3" />
+                <stop offset="35%" stopColor="white" stopOpacity="0.75" />
+                <stop offset="68%" stopColor="#ffffff" stopOpacity="0.22" />
                 <stop offset="100%" stopColor="#d7c2ff" stopOpacity="0" />
               </linearGradient>
             </defs>
