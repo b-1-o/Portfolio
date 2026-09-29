@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import RippleDistortion from './RippleDistortion';
 
 import pageBg from '../assets/page.png';
@@ -101,40 +101,63 @@ const socials = [
   { label: 'Telegram', href: 'https://t.me/blood_on_music' },
 ];
 
-function useIsMobile() {
-  const [mobile, setMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.matchMedia('(max-width: 800px)').matches : false
-  );
+function ProjectPanel({ project, onClose }) {
   useEffect(() => {
-    const mq = window.matchMedia('(max-width: 800px)');
-    const fn = () => setMobile(mq.matches);
-    mq.addEventListener('change', fn);
-    return () => mq.removeEventListener('change', fn);
-  }, []);
-  return mobile;
-}
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const onKey = e => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = prev;
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [onClose]);
 
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(() =>
-    typeof window !== 'undefined'
-      ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-      : false
+  return (
+    <div
+      className="project-panel-backdrop"
+      onMouseDown={e => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+      role="presentation"
+    >
+      <section className="project-panel hud" role="dialog" aria-modal="true" aria-label={project.name}>
+        <div className="project-panel-top">
+          <span className="hud-copy">PROJECT / {project.id}</span>
+          <button type="button" className="panel-close" onClick={onClose} aria-label="Close">
+            ×
+          </button>
+        </div>
+        <span className="work-kind">{project.kind}</span>
+        <h3>{project.name}</h3>
+        <p>{project.blurb}</p>
+        <div className="work-stack">
+          {project.stack.map(t => (
+            <span key={t}>{t}</span>
+          ))}
+        </div>
+        <div className="project-panel-actions">
+          <a className="panel-btn" href={project.repo} target="_blank" rel="noreferrer">
+            REPOSITORY
+          </a>
+          {project.site ? (
+            <a className="panel-btn panel-btn-solid" href={project.site} target="_blank" rel="noreferrer">
+              LIVE SITE
+            </a>
+          ) : null}
+        </div>
+      </section>
+    </div>
   );
-  useEffect(() => {
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const fn = () => setReduced(mq.matches);
-    mq.addEventListener('change', fn);
-    return () => mq.removeEventListener('change', fn);
-  }, []);
-  return reduced;
 }
 
 function App() {
   const [time, setTime] = useState(() => new Date());
   const audioRef = useRef({});
-  const mobile = useIsMobile();
-  const reducedMotion = usePrefersReducedMotion();
-  const [rippleOn, setRippleOn] = useState(true);
+  const [openProject, setOpenProject] = useState(null);
+  const [rippleReady, setRippleReady] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => setTime(new Date()), 1000);
@@ -142,30 +165,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const onVis = () => setRippleOn(document.visibilityState === 'visible');
-    document.addEventListener('visibilitychange', onVis);
-    return () => document.removeEventListener('visibilitychange', onVis);
-  }, []);
-
-  useEffect(() => {
-    const unlock = () => {
-      Object.entries(SFX).forEach(([type, src]) => {
-        if (audioRef.current[type]) return;
-        const a = new Audio();
-        a.preload = 'auto';
-        a.volume = 0.72;
-        a.src = src;
-        audioRef.current[type] = a;
-      });
-      window.removeEventListener('pointerdown', unlock);
-      window.removeEventListener('keydown', unlock);
-    };
-    window.addEventListener('pointerdown', unlock, { once: true, passive: true });
-    window.addEventListener('keydown', unlock, { once: true });
-    return () => {
-      window.removeEventListener('pointerdown', unlock);
-      window.removeEventListener('keydown', unlock);
-    };
+    const id = window.requestAnimationFrame(() => setRippleReady(true));
+    return () => cancelAnimationFrame(id);
   }, []);
 
   const playSfx = useCallback(type => {
@@ -174,16 +175,15 @@ function App() {
 
     let audio = audioRef.current[type];
     if (!audio) {
-      audio = new Audio();
+      audio = new Audio(src);
       audio.preload = 'auto';
-      audio.volume = 0.72;
-      audio.src = src;
+      audio.volume = type === 'click' ? 0.85 : 0.72;
       audioRef.current[type] = audio;
     }
 
-    if (!audio.paused && audio.currentTime > 0.02) {
-      const clone = audio.cloneNode();
-      clone.volume = 0.72;
+    if (type === 'click' || (!audio.paused && audio.currentTime > 0.02)) {
+      const clone = new Audio(src);
+      clone.volume = audio.volume;
       const result = clone.play();
       return result && typeof result.then === 'function'
         ? result.then(() => clone).catch(() => null)
@@ -220,11 +220,12 @@ function App() {
         playSfx('navigation');
         return;
       }
-      if (anchor && href && !href.startsWith('#')) {
-        playSfx('navigation');
-        return;
-      }
-      if (target.closest('button,[role="button"]')) {
+
+      if (
+        target.closest('button') ||
+        target.closest('[role="button"]') ||
+        target.closest('[data-project]')
+      ) {
         playSfx('click');
       }
     };
@@ -257,57 +258,46 @@ function App() {
     window.setTimeout(() => window.location.reload(), wait);
   };
 
+  const openPanel = project => {
+    playSfx('click');
+    setOpenProject(project);
+  };
+
   const formattedTime = time.toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
   });
 
-  const rippleQuality = useMemo(() => {
-    if (reducedMotion) return 'low';
-    if (mobile) return 'low';
-    return 'medium';
-  }, [mobile, reducedMotion]);
-
   return (
     <main className="page">
       <div className="visual-stage" aria-hidden="true">
-        {rippleOn && !reducedMotion ? (
+        {rippleReady ? (
           <RippleDistortion
             src={pageBg}
-            brushSize={mobile ? 48 : 65}
-            strength={0.07}
-            swirl={0.55}
-            rings={2}
+            brushSize={65}
+            strength={0.09}
+            swirl={0.65}
+            rings={2.5}
             grayscale
-            spacing={mobile ? 4 : 2}
+            spacing={12}
             tint="#8300ff"
-            quality={rippleQuality}
+            quality="low"
             spread={4}
-            fade={2.4}
+            fade={2.2}
             dispersion={0}
             glint={0}
-            tintAmount={0.08}
+            tintAmount={0.1}
             highlightColor="#ffffff"
             trigger="hover"
             clickStrength={1.5}
             enabled
           />
         ) : (
-          <div
-            className="static-bg"
-            style={{ backgroundImage: `url(${pageBg})` }}
-          />
+          <div className="static-bg" style={{ backgroundImage: `url(${pageBg})` }} />
         )}
         <div className="image-dimmer" />
         <div className="pointer-halo" />
-        {!mobile && !reducedMotion && (
-          <div className="beam-field" aria-hidden="true">
-            <span className="beam beam-a" />
-            <span className="beam beam-b" />
-            <span className="beam beam-c" />
-          </div>
-        )}
         <div className="vignette" />
       </div>
 
@@ -324,7 +314,7 @@ function App() {
           <a href="#connect">CONNECT</a>
         </nav>
 
-        <button className="refresh-button" data-refresh onClick={refreshPage} aria-label="Refresh page">
+        <button type="button" className="refresh-button" data-refresh onClick={refreshPage} aria-label="Refresh page">
           <span className="refresh-glyph">↻</span>
           REFRESH
         </button>
@@ -401,11 +391,18 @@ function App() {
         <div className="work-head">
           <span className="hud-copy work-kicker">04 / SELECTED WORK</span>
           <h2>Projects</h2>
-          <p>Open repositories and live demos. Sounds play on every link.</p>
+          <p>Click a project to open its panel — repo and live site.</p>
         </div>
         <div className="work-grid">
           {projects.map(p => (
-            <article key={p.id} className="work-card hud">
+            <button
+              key={p.id}
+              type="button"
+              className="work-card hud"
+              data-project
+              onClick={() => openPanel(p)}
+              aria-label={`Open ${p.name}`}
+            >
               <div className="work-card-top">
                 <span className="work-id">{p.id}</span>
                 <span className="work-kind">{p.kind}</span>
@@ -417,17 +414,8 @@ function App() {
                   <span key={t}>{t}</span>
                 ))}
               </div>
-              <div className="work-links">
-                <a href={p.repo} target="_blank" rel="noreferrer">
-                  REPO
-                </a>
-                {p.site ? (
-                  <a href={p.site} target="_blank" rel="noreferrer">
-                    LIVE
-                  </a>
-                ) : null}
-              </div>
-            </article>
+              <div className="work-open-hint">CLICK TO OPEN</div>
+            </button>
           ))}
         </div>
       </section>
@@ -454,6 +442,10 @@ function App() {
         <span>LA · 2026</span>
         <span>BUILT WITH REACT</span>
       </footer>
+
+      {openProject ? (
+        <ProjectPanel project={openProject} onClose={() => setOpenProject(null)} />
+      ) : null}
     </main>
   );
 }
