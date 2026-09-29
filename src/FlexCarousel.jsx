@@ -21,124 +21,13 @@ const easeOut = value => 1 - Math.pow(1 - clamp01(value), 3);
 const easeOutQuint = value => 1 - Math.pow(1 - clamp01(value), 5);
 const easeInOut = value => { const t = clamp01(value); return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
 
-const cardVertex = `#version 300 es
-in vec3 position;
-in vec2 uv;
-uniform vec4 uRect;
-uniform vec2 uResolution;
-out vec2 vUv;
-out vec2 vLocal;
-void main() {
-vUv = uv;
-vLocal = vec2(position.x, -position.y) * uRect.zw;
-vec2 px = uRect.xy + vLocal;
-gl_Position = vec4(px.x / uResolution.x * 2.0 - 1.0, 1.0 - px.y / uResolution.y * 2.0, 0.0, 1.0);
-}`;
+const cardVertex = `#version 300 es\nin vec3 position;\nin vec2 uv;\nuniform vec4 uRect;\nuniform vec2 uResolution;\nout vec2 vUv;\nout vec2 vLocal;\nvoid main() {\nvUv = uv;\nvLocal = vec2(position.x, -position.y) * uRect.zw;\nvec2 px = uRect.xy + vLocal;\ngl_Position = vec4(px.x / uResolution.x * 2.0 - 1.0, 1.0 - px.y / uResolution.y * 2.0, 0.0, 1.0);\n}`;
 
-const cardFragment = `#version 300 es
-precision mediump float;
-uniform sampler2D tMap;
-uniform vec2 uSize;
-uniform vec2 uImage;
-uniform float uRadius;
-uniform float uAlpha;
-uniform float uReady;
-uniform float uShift;
-uniform float uDpr;
-uniform vec3 uPlaceholder;
-in vec2 vUv;
-in vec2 vLocal;
-out vec4 fragColor;
-float roundedBox(vec2 p, vec2 b, float r) {
-vec2 q = abs(p) - b + r;
-return length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;
-}
-void main() {
-float sd = roundedBox(vLocal, uSize * 0.5, min(uRadius, min(uSize.x, uSize.y) * 0.5));
-float mask = clamp(0.5 - sd * uDpr, 0.0, 1.0);
-vec2 local = vLocal / uSize + 0.5;
-float cardAspect = uSize.x / uSize.y;
-float imageAspect = uImage.x / max(uImage.y, 1.0);
-vec2 scale = imageAspect > cardAspect ? vec2(cardAspect / imageAspect, 1.0) : vec2(1.0, imageAspect / cardAspect);
-scale /= 1.08;
-vec2 uv = vec2(local.x, 1.0 - local.y);
-uv = (uv - 0.5) * scale + 0.5;
-uv.x += uShift * (1.0 - scale.x) * 0.5;
-vec3 image = texture(tMap, uv).rgb;
-vec3 color = mix(uPlaceholder, image, uReady);
-float alpha = mask * uAlpha;
-fragColor = vec4(color * alpha, alpha);
-}`;
+const cardFragment = `#version 300 es\nprecision mediump float;\nuniform sampler2D tMap;\nuniform vec2 uSize;\nuniform vec2 uImage;\nuniform float uRadius;\nuniform float uAlpha;\nuniform float uReady;\nuniform float uShift;\nuniform float uDpr;\nuniform vec3 uPlaceholder;\nin vec2 vUv;\nin vec2 vLocal;\nout vec4 fragColor;\nfloat roundedBox(vec2 p, vec2 b, float r) {\nvec2 q = abs(p) - b + r;\nreturn length(max(q, 0.0)) + min(max(q.x, q.y), 0.0) - r;\n}\nvoid main() {\nfloat sd = roundedBox(vLocal, uSize * 0.5, min(uRadius, min(uSize.x, uSize.y) * 0.5));\nfloat mask = clamp(0.5 - sd * uDpr, 0.0, 1.0);\nvec2 local = vLocal / uSize + 0.5;\nfloat cardAspect = uSize.x / uSize.y;\nfloat imageAspect = uImage.x / max(uImage.y, 1.0);\nvec2 scale = imageAspect > cardAspect ? vec2(cardAspect / imageAspect, 1.0) : vec2(1.0, imageAspect / cardAspect);\nscale /= 1.08;\nvec2 uv = vec2(local.x, 1.0 - local.y);\nuv = (uv - 0.5) * scale + 0.5;\nuv.x += uShift * (1.0 - scale.x) * 0.5;\nvec4 sample = texture(tMap, uv);\nvec3 image = sample.rgb;\nvec3 color = mix(uPlaceholder, image, uReady);\nfloat texA = mix(1.0, sample.a, uReady);\nfloat alpha = mask * uAlpha * max(texA, 0.0);\nfragColor = vec4(color * alpha, alpha);\n}`;
 
-const lensVertex = `#version 300 es
-in vec2 position;
-void main() { gl_Position = vec4(position, 0.0, 1.0); }`;
+const lensVertex = `#version 300 es\nin vec2 position;\nvoid main() { gl_Position = vec4(position, 0.0, 1.0); }`;
 
-const lensFragment = `#version 300 es
-precision mediump float;
-uniform sampler2D tScene;
-uniform vec2 uResolution;
-uniform float uDpr;
-uniform vec2 uCenter;
-uniform vec2 uHalf;
-uniform float uAngle;
-uniform float uExponent;
-uniform float uInner;
-uniform float uOuter;
-uniform float uFlow;
-uniform float uCurl;
-uniform float uDispersion;
-uniform float uStrength;
-uniform float uSceneAlpha;
-out vec4 fragColor;
-void main() {
-vec2 frag = gl_FragCoord.xy / uDpr;
-vec2 uv = frag / uResolution;
-vec2 rel = frag - vec2(uCenter.x, uResolution.y - uCenter.y);
-float ca = cos(uAngle);
-float sa = sin(uAngle);
-vec2 local = vec2(ca * rel.x + sa * rel.y, -sa * rel.x + ca * rel.y);
-vec2 k = max(abs(local) / uHalf, vec2(1e-5));
-float nd = pow(pow(k.x, uExponent) + pow(k.y, uExponent), 1.0 / uExponent);
-vec2 grad = pow(k, vec2(uExponent - 1.0)) * sign(local) / uHalf * pow(nd, 1.0 - uExponent);
-float glen = max(length(grad), 1e-6);
-float edge = (nd - 1.0) / glen;
-vec2 outward = grad / glen;
-vec2 normal = vec2(ca * outward.x - sa * outward.y, sa * outward.x + ca * outward.y);
-vec2 along = vec2(-normal.y, normal.x);
-float t = clamp((edge + uInner) / (uInner + uOuter), 0.0, 1.0);
-float ramp = t * t * t * (t * (t * 6.0 - 15.0) + 10.0);
-float slope = 16.0 * t * t * (1.0 - t) * (1.0 - t);
-float reachX = rel.x / (uResolution.x * 0.5);
-float side = smoothstep(0.02, 0.3, abs(reachX)) * (uCurl == 0.0 ? sign(reachX) : uCurl);
-float lift = ramp * side * uFlow * uStrength;
-vec2 swirl = along * along.y * side * slope * uFlow * uStrength * 0.35;
-vec2 drift = vec2(0.0, -lift) - swirl;
-vec2 shifted = uv + drift / uResolution;
-vec2 texels = uResolution * uDpr;
-vec2 gx = dFdx(shifted);
-vec2 gy = dFdy(shifted);
-gx *= min(1.0, 3.0 / max(length(gx * texels), 1e-4));
-gy *= min(1.0, 3.0 / max(length(gy * texels), 1e-4));
-vec4 color = textureGrad(tScene, shifted, gx, gy);
-vec2 spread = vec2(0.0, side * slope * uFlow * uStrength) / uResolution * uDispersion;
-float spreadPx = length(spread * texels);
-if (color.a > 0.002 && spreadPx > 0.25) {
-vec3 base = color.rgb / color.a;
-vec3 sumColor = vec3(0.0);
-vec3 sumWeight = vec3(0.0);
-for (int i = 0; i < 8; i++) {
-float s = (float(i) + 0.5) / 8.0;
-vec4 c = textureGrad(tScene, shifted + spread * (s - 0.5), gx, gy);
-vec3 w = max(1.0 - abs(vec3(s) - vec3(0.15, 0.5, 0.85)) * 2.6, 0.0) * c.a;
-sumColor += c.rgb * (w / max(c.a, 0.002));
-sumWeight += w;
-}
-vec3 split = mix(base, sumColor / max(sumWeight, vec3(1e-4)), clamp(sumWeight * 2.0, 0.0, 1.0));
-color.rgb = mix(color.rgb, clamp(split, 0.0, 1.0) * color.a, smoothstep(0.25, 1.5, spreadPx));
-}
-fragColor = color * uSceneAlpha;
-}`;
+const lensFragment = `#version 300 es\nprecision mediump float;\nuniform sampler2D tScene;\nuniform vec2 uResolution;\nuniform float uDpr;\nuniform vec2 uCenter;\nuniform vec2 uHalf;\nuniform float uAngle;\nuniform float uExponent;\nuniform float uInner;\nuniform float uOuter;\nuniform float uFlow;\nuniform float uCurl;\nuniform float uDispersion;\nuniform float uStrength;\nuniform float uSceneAlpha;\nout vec4 fragColor;\nvoid main() {\nvec2 frag = gl_FragCoord.xy / uDpr;\nvec2 uv = frag / uResolution;\nvec2 rel = frag - vec2(uCenter.x, uResolution.y - uCenter.y);\nfloat ca = cos(uAngle);\nfloat sa = sin(uAngle);\nvec2 local = vec2(ca * rel.x + sa * rel.y, -sa * rel.x + ca * rel.y);\nvec2 k = max(abs(local) / uHalf, vec2(1e-5));\nfloat nd = pow(pow(k.x, uExponent) + pow(k.y, uExponent), 1.0 / uExponent);\nvec2 grad = pow(k, vec2(uExponent - 1.0)) * sign(local) / uHalf * pow(nd, 1.0 - uExponent);\nfloat glen = max(length(grad), 1e-6);\nfloat edge = (nd - 1.0) / glen;\nvec2 outward = grad / glen;\nvec2 normal = vec2(ca * outward.x - sa * outward.y, sa * outward.x + ca * outward.y);\nvec2 along = vec2(-normal.y, normal.x);\nfloat t = clamp((edge + uInner) / (uInner + uOuter), 0.0, 1.0);\nfloat ramp = t * t * t * (t * (t * 6.0 - 15.0) + 10.0);\nfloat slope = 16.0 * t * t * (1.0 - t) * (1.0 - t);\nfloat reachX = rel.x / (uResolution.x * 0.5);\nfloat side = smoothstep(0.02, 0.3, abs(reachX)) * (uCurl == 0.0 ? sign(reachX) : uCurl);\nfloat lift = ramp * side * uFlow * uStrength;\nvec2 swirl = along * along.y * side * slope * uFlow * uStrength * 0.35;\nvec2 drift = vec2(0.0, -lift) - swirl;\nvec2 shifted = uv + drift / uResolution;\nvec2 texels = uResolution * uDpr;\nvec2 gx = dFdx(shifted);\nvec2 gy = dFdy(shifted);\ngx *= min(1.0, 3.0 / max(length(gx * texels), 1e-4));\ngy *= min(1.0, 3.0 / max(length(gy * texels), 1e-4));\nvec4 color = textureGrad(tScene, shifted, gx, gy);\nvec2 spread = vec2(0.0, side * slope * uFlow * uStrength) / uResolution * uDispersion;\nfloat spreadPx = length(spread * texels);\nif (color.a > 0.002 && spreadPx > 0.25) {\nvec3 base = color.rgb / color.a;\nvec3 sumColor = vec3(0.0);\nvec3 sumWeight = vec3(0.0);\nfor (int i = 0; i < 8; i++) {\nfloat s = (float(i) + 0.5) / 8.0;\nvec4 c = textureGrad(tScene, shifted + spread * (s - 0.5), gx, gy);\nvec3 w = max(1.0 - abs(vec3(s) - vec3(0.15, 0.5, 0.85)) * 2.6, 0.0) * c.a;\nsumColor += c.rgb * (w / max(c.a, 0.002));\nsumWeight += w;\n}\nvec3 split = mix(base, sumColor / max(sumWeight, vec3(1e-4)), clamp(sumWeight * 2.0, 0.0, 1.0));\ncolor.rgb = mix(color.rgb, clamp(split, 0.0, 1.0) * color.a, smoothstep(0.25, 1.5, spreadPx));\n}\nfragColor = color * uSceneAlpha;\n}`;
 
 const Digits = ({ value }) => (
   <span className="flex-carousel__digits">
@@ -206,7 +95,7 @@ const FlexCarousel = ({
       uniforms: {
         tMap: { value: new Texture(gl) }, uRect: { value: [0, 0, 1, 1] }, uResolution: { value: [1, 1] },
         uSize: { value: [1, 1] }, uImage: { value: [1, 1] }, uRadius: { value: 16 }, uAlpha: { value: 1 },
-        uReady: { value: 0 }, uShift: { value: 0 }, uDpr: { value: 1 }, uPlaceholder: { value: [0.5, 0.5, 0.5] }
+        uReady: { value: 0 }, uShift: { value: 0 }, uDpr: { value: 1 }, uPlaceholder: { value: [0.22, 0.22, 0.26] }
       }
     });
     cardProgram.setBlendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
@@ -238,7 +127,7 @@ const FlexCarousel = ({
 
     const loadSlot = (item, index) => {
       const texture = new Texture(gl, { generateMipmaps: true, minFilter: gl.LINEAR_MIPMAP_LINEAR, magFilter: gl.LINEAR, anisotropy });
-      const slot = { item, index, texture, aspect: 0.8, loaded: false, failed: false, ready: 0, color: [0.5, 0.5, 0.5], image: [1, 1], dispose: () => {} };
+      const slot = { item, index, texture, aspect: 0.8, loaded: false, failed: false, ready: 0, color: [0.22, 0.22, 0.26], image: [1, 1], dispose: () => {} };
       const image = new Image();
       if (/^https?:/i.test(String(item.src))) image.crossOrigin = 'anonymous';
       image.decoding = 'async';
@@ -247,7 +136,7 @@ const FlexCarousel = ({
         texture.image = image; texture.update();
         slot.image = [image.naturalWidth || 1, image.naturalHeight || 1];
         slot.aspect = slot.image[0] / slot.image[1];
-        slot.color = [0.12, 0.1, 0.16];
+        slot.color = [0.22, 0.22, 0.26];
         slot.loaded = true; dirty = true; start();
       };
       image.onerror = () => { if (!alive) return; slot.failed = true; dirty = true; start(); };
