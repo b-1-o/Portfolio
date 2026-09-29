@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import RippleDistortion from './RippleDistortion';
 
+const ASSET_BASE = import.meta.env.BASE_URL;
+
 const SFX = {
-  click: '/assets/Cough_Nothing_Phone_2_Stock_Notification-649463-mobiles24.mp3',
-  navigation: '/assets/Squiggle_Nothing_Phone_1_Stock_Notification-645458-mobiles24.mp3',
-  refresh: '/assets/Bulb_One_Nothing_Phone_2_Stock_Notification-649453-mobiles24.mp3',
-  error: '/assets/Lonba_Nothing_Phone_2_Stock_Notification-649461-mobiles24.mp3',
+  click: `${ASSET_BASE}assets/Cough_Nothing_Phone_2_Stock_Notification-649463-mobiles24.mp3`,
+  navigation: `${ASSET_BASE}assets/Squiggle_Nothing_Phone_1_Stock_Notification-645458-mobiles24.mp3`,
+  refresh: `${ASSET_BASE}assets/Bulb_One_Nothing_Phone_2_Stock_Notification-649453-mobiles24.mp3`,
+  error: `${ASSET_BASE}assets/Lonba_Nothing_Phone_2_Stock_Notification-649461-mobiles24.mp3`,
 };
 
 const notes = [
@@ -112,7 +114,7 @@ function App() {
     <main className="page">
       <div className="visual-stage" aria-hidden="true">
         <RippleDistortion
-          src="/assets/Без%20названия.png"
+          src={`${ASSET_BASE}assets/page.png`}
           brushSize={65}
           strength={0.09}
           swirl={0.65}
