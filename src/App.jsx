@@ -41,120 +41,18 @@ const SFX = {
 };
 
 const projects = [
-  {
-    id: '01',
-    name: 'music',
-    kind: 'WEB · MUSIC',
-    blurb: 'Local-first music player with YouTube search, playlists, queue, likes and atmospheric playback controls.',
-    detail: 'Built as a visual world around sound — history, shuffle and appearance stay in the browser with no account required.',
-    stack: ['React', 'TypeScript', 'YouTube API', 'Web Audio'],
-    repo: 'https://github.com/b-1-o/music',
-    site: 'https://b-1-o.github.io/music/',
-  },
-  {
-    id: '02',
-    name: 'heaven',
-    kind: 'WEB · TOOLING',
-    blurb: 'Developer command center — launch workflows, tools and environments from one surface.',
-    detail: 'A focused UI for daily developer routines: open groups of URLs, scripts and apps without leaving the browser.',
-    stack: ['TypeScript', 'React', 'Vite'],
-    repo: 'https://github.com/b-1-o/heaven',
-    site: 'https://b-1-o.github.io/heaven/',
-  },
-  {
-    id: '03',
-    name: 'fog',
-    kind: 'WEB · INTERACTION',
-    blurb: 'Layered depth and a draggable 3D carousel — the visual grammar behind atmospheric UIs.',
-    detail: 'Interaction experiment that explores motion, opacity and perspective as a shared language across portfolio surfaces.',
-    stack: ['React', '3D CSS', 'Motion'],
-    repo: 'https://github.com/b-1-o/fog',
-    site: 'https://b-1-o.github.io/fog/',
-  },
-  {
-    id: '04',
-    name: 'forest',
-    kind: 'WEB · EXPERIENCE',
-    blurb: 'Immersive forest portfolio experiment with motion and environmental mood.',
-    detail: 'A narrative web experience where navigation feels like walking through layers of canopy and light.',
-    stack: ['React', 'TypeScript', 'CSS'],
-    repo: 'https://github.com/b-1-o/forest',
-    site: 'https://b-1-o.github.io/forest/',
-  },
-  {
-    id: '05',
-    name: 'biohub',
-    kind: 'LINUX · PRODUCTIVITY',
-    blurb: 'Local Linux command center for apps, URL groups and repeatable workflows.',
-    detail: 'Terminal + desktop interfaces via Python — FastAPI, Typer and PySide6 for launching real work, not demos.',
-    stack: ['Python', 'FastAPI', 'Typer', 'PySide6'],
-    repo: 'https://github.com/b-1-o/biohub',
-  },
-  {
-    id: '06',
-    name: 'Biogram',
-    kind: 'IOS · MESSAGING',
-    blurb: 'Native iOS Telegram client work — builds, signing, Bazel and Telegram architecture.',
-    detail: 'Deep dive into native mobile: configuration, signing pipelines and the structure of a large messaging codebase.',
-    stack: ['Swift', 'iOS', 'Xcode', 'Bazel'],
-    repo: 'https://github.com/b-1-o/Biogram-iOS-26',
-  },
-  {
-    id: '07',
-    name: 's1eep',
-    kind: 'WEB · SURFACE',
-    blurb: 'This site — quiet digital room with pointer-driven water distortion and low-light HUD.',
-    detail: 'React Bits RippleDistortion, custom glass UI, Nothing Phone system sounds and a portfolio layer on top.',
-    stack: ['React', 'WebGL', 'ogl', 'Vite'],
-    repo: 'https://github.com/b-1-o/s1eep',
-    site: 'https://b-1-o.github.io/s1eep/',
-  },
-  {
-    id: '08',
-    name: 'barber',
-    kind: 'WEB · PRODUCT',
-    blurb: 'Barbershop product surface — booking-minded UI in TypeScript.',
-    detail: 'Clean product patterns for service businesses: services, availability and a calm conversion-focused layout.',
-    stack: ['TypeScript', 'React'],
-    repo: 'https://github.com/b-1-o/barber',
-  },
-  {
-    id: '09',
-    name: 'my',
-    kind: 'WEB · PORTFOLIO',
-    blurb: 'Earlier personal space with spiral carousel and image-driven navigation.',
-    detail: 'Atmospheric portfolio built around depth, motion and a foggy visual rhythm.',
-    stack: ['React', 'TypeScript', 'CSS', 'Motion'],
-    repo: 'https://github.com/b-1-o/my',
-    site: 'https://b-1-o.github.io/my/',
-  },
-  {
-    id: '10',
-    name: 'Benzola',
-    kind: 'WEB · BRAND',
-    blurb: 'Brand-forward web surface in TypeScript with deliberate motion.',
-    detail: 'Experiment in product identity — typography, pacing and restrained interaction.',
-    stack: ['TypeScript', 'React'],
-    repo: 'https://github.com/b-1-o/Benzola',
-  },
-  {
-    id: '11',
-    name: 'build',
-    kind: 'WEB · SYSTEMS',
-    blurb: 'Build tooling and system surfaces for shipping faster.',
-    detail: 'Internal-facing tools that keep deployment and local workflows predictable.',
-    stack: ['TypeScript', 'Vite'],
-    repo: 'https://github.com/b-1-o/build',
-  },
-  {
-    id: '12',
-    name: 'b1o-remote-agent',
-    kind: 'PYTHON · AGENT',
-    blurb: 'Remote agent experiments in Python for automation and tooling.',
-    detail: 'Exploring agent loops, remote control surfaces and practical automation helpers.',
-    stack: ['Python'],
-    repo: 'https://github.com/b-1-o/b1o-remote-agent',
-  },
+  { id: '01', name: 'music', kind: 'WEB · MUSIC', blurb: 'Local-first music player with YouTube search, playlists, queue, likes and atmospheric playback controls.', detail: 'Built as a visual world around sound — history, shuffle and appearance stay in the browser with no account required.', stack: ['React', 'TypeScript', 'YouTube API', 'Web Audio'], repo: 'https://github.com/b-1-o/music', site: 'https://b-1-o.github.io/music/' },
+  { id: '02', name: 'heaven', kind: 'WEB · TOOLING', blurb: 'Developer command center — launch workflows, tools and environments from one surface.', detail: 'A focused UI for daily developer routines: open groups of URLs, scripts and apps without leaving the browser.', stack: ['TypeScript', 'React', 'Vite'], repo: 'https://github.com/b-1-o/heaven', site: 'https://b-1-o.github.io/heaven/' },
+  { id: '03', name: 'fog', kind: 'WEB · INTERACTION', blurb: 'Layered depth and a draggable 3D carousel — the visual grammar behind atmospheric UIs.', detail: 'Interaction experiment that explores motion, opacity and perspective as a shared language across portfolio surfaces.', stack: ['React', '3D CSS', 'Motion'], repo: 'https://github.com/b-1-o/fog', site: 'https://b-1-o.github.io/fog/' },
+  { id: '04', name: 'forest', kind: 'WEB · EXPERIENCE', blurb: 'Immersive forest portfolio experiment with motion and environmental mood.', detail: 'A narrative web experience where navigation feels like walking through layers of canopy and light.', stack: ['React', 'TypeScript', 'CSS'], repo: 'https://github.com/b-1-o/forest', site: 'https://b-1-o.github.io/forest/' },
+  { id: '05', name: 'biohub', kind: 'LINUX · PRODUCTIVITY', blurb: 'Local Linux command center for apps, URL groups and repeatable workflows.', detail: 'Terminal + desktop interfaces via Python — FastAPI, Typer and PySide6 for launching real work, not demos.', stack: ['Python', 'FastAPI', 'Typer', 'PySide6'], repo: 'https://github.com/b-1-o/biohub' },
+  { id: '06', name: 'Biogram', kind: 'IOS · MESSAGING', blurb: 'Native iOS Telegram client work — builds, signing, Bazel and Telegram architecture.', detail: 'Deep dive into native mobile: configuration, signing pipelines and the structure of a large messaging codebase.', stack: ['Swift', 'iOS', 'Xcode', 'Bazel'], repo: 'https://github.com/b-1-o/Biogram-iOS-26' },
+  { id: '07', name: 's1eep', kind: 'WEB · SURFACE', blurb: 'This site — quiet digital room with pointer-driven water distortion and low-light HUD.', detail: 'React Bits RippleDistortion, custom glass UI, Nothing Phone system sounds and a portfolio layer on top.', stack: ['React', 'WebGL', 'ogl', 'Vite'], repo: 'https://github.com/b-1-o/s1eep', site: 'https://b-1-o.github.io/s1eep/' },
+  { id: '08', name: 'barber', kind: 'WEB · PRODUCT', blurb: 'Barbershop product surface — booking-minded UI in TypeScript.', detail: 'Clean product patterns for service businesses: services, availability and a calm conversion-focused layout.', stack: ['TypeScript', 'React'], repo: 'https://github.com/b-1-o/barber' },
+  { id: '09', name: 'my', kind: 'WEB · PORTFOLIO', blurb: 'Earlier personal space with spiral carousel and image-driven navigation.', detail: 'Atmospheric portfolio built around depth, motion and a foggy visual rhythm.', stack: ['React', 'TypeScript', 'CSS', 'Motion'], repo: 'https://github.com/b-1-o/my', site: 'https://b-1-o.github.io/my/' },
+  { id: '10', name: 'Benzola', kind: 'WEB · BRAND', blurb: 'Brand-forward web surface in TypeScript with deliberate motion.', detail: 'Experiment in product identity — typography, pacing and restrained interaction.', stack: ['TypeScript', 'React'], repo: 'https://github.com/b-1-o/Benzola' },
+  { id: '11', name: 'build', kind: 'WEB · SYSTEMS', blurb: 'Build tooling and system surfaces for shipping faster.', detail: 'Internal-facing tools that keep deployment and local workflows predictable.', stack: ['TypeScript', 'Vite'], repo: 'https://github.com/b-1-o/build' },
+  { id: '12', name: 'b1o-remote-agent', kind: 'PYTHON · AGENT', blurb: 'Remote agent experiments in Python for automation and tooling.', detail: 'Exploring agent loops, remote control surfaces and practical automation helpers.', stack: ['Python'], repo: 'https://github.com/b-1-o/b1o-remote-agent' },
 ];
 
 const services = [
@@ -175,6 +73,13 @@ const skills = {
   graphics: ['WebGL', 'ogl', 'Shaders', '3D CSS', 'Ripple / distortion'],
   other: ['Python', 'FastAPI', 'Swift / iOS', 'Bazel', 'Node', 'UI design'],
 };
+
+const CAROUSEL_ITEMS = projects.map(p => ({
+  src: projectIcon(p.name),
+  alt: p.name,
+  title: p.name,
+  subtitle: p.kind,
+}));
 
 const socials = [
   { label: 'GitHub', href: 'https://github.com/b-1-o', note: '@b-1-o' },
@@ -201,38 +106,20 @@ function ProjectPanel({ project, onClose }) {
   }, [onClose]);
 
   return (
-    <div
-      className="project-panel-backdrop"
-      onMouseDown={e => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-      role="presentation"
-    >
+    <div className="project-panel-backdrop" onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }} role="presentation">
       <section className="project-panel hud" role="dialog" aria-modal="true" aria-label={project.name}>
         <div className="project-panel-top">
           <span className="hud-copy">PROJECT / {project.id}</span>
-          <button type="button" className="panel-close" onClick={onClose} aria-label="Close">
-            ×
-          </button>
+          <button type="button" className="panel-close" onClick={onClose} aria-label="Close">×</button>
         </div>
         <span className="work-kind">{project.kind}</span>
         <h3>{project.name}</h3>
         <p>{project.blurb}</p>
         {project.detail ? <p className="panel-detail">{project.detail}</p> : null}
-        <div className="work-stack">
-          {project.stack.map(t => (
-            <span key={t}>{t}</span>
-          ))}
-        </div>
+        <div className="work-stack">{project.stack.map(t => <span key={t}>{t}</span>)}</div>
         <div className="project-panel-actions">
-          <a className="panel-btn" href={project.repo} target="_blank" rel="noreferrer">
-            REPOSITORY
-          </a>
-          {project.site ? (
-            <a className="panel-btn panel-btn-solid" href={project.site} target="_blank" rel="noreferrer">
-              LIVE SITE
-            </a>
-          ) : null}
+          <a className="panel-btn" href={project.repo} target="_blank" rel="noreferrer">REPOSITORY</a>
+          {project.site ? <a className="panel-btn panel-btn-solid" href={project.site} target="_blank" rel="noreferrer">LIVE SITE</a> : null}
         </div>
       </section>
     </div>
@@ -251,7 +138,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const id = window.setTimeout(() => setRippleReady(true), 120);
+    const id = window.setTimeout(() => setRippleReady(true), 200);
     return () => clearTimeout(id);
   }, []);
 
@@ -269,19 +156,11 @@ function App() {
       const clone = new Audio(src);
       clone.volume = audio.volume;
       const result = clone.play();
-      return result && typeof result.then === 'function'
-        ? result.then(() => clone).catch(() => null)
-        : Promise.resolve(clone);
+      return result && typeof result.then === 'function' ? result.then(() => clone).catch(() => null) : Promise.resolve(clone);
     }
-    try {
-      audio.currentTime = 0;
-    } catch {
-      /* ignore */
-    }
+    try { audio.currentTime = 0; } catch { /* ignore */ }
     const result = audio.play();
-    return result && typeof result.then === 'function'
-      ? result.then(() => audio).catch(() => null)
-      : Promise.resolve(audio);
+    return result && typeof result.then === 'function' ? result.then(() => audio).catch(() => null) : Promise.resolve(audio);
   }, []);
 
   useEffect(() => {
@@ -309,11 +188,7 @@ function App() {
         playSfx('navigation');
         return;
       }
-      if (
-        target.closest('button') ||
-        target.closest('[role="button"]') ||
-        target.closest('[data-project]')
-      ) {
+      if (target.closest('button') || target.closest('[role="button"]') || target.closest('[data-project]')) {
         playSfx('click');
       }
     };
@@ -349,13 +224,6 @@ function App() {
     setOpenProject(project);
   };
 
-  const carouselItems = projects.map(p => ({
-    src: projectIcon(p.name),
-    alt: p.name,
-    title: p.name,
-    subtitle: p.kind,
-  }));
-
   const formattedTime = time.toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
@@ -368,22 +236,22 @@ function App() {
         {rippleReady ? (
           <RippleDistortion
             src={pageBg}
-            brushSize={65}
-            strength={0.09}
-            swirl={0.65}
-            rings={2.5}
+            brushSize={80}
+            strength={0.12}
+            swirl={0.7}
+            rings={3}
             grayscale
-            spacing={1}
+            spacing={10}
             tint="#8300ff"
             quality="low"
-            spread={4}
-            fade={2}
+            spread={3.5}
+            fade={1.8}
             dispersion={0}
             glint={0}
-            tintAmount={0.1}
+            tintAmount={0.08}
             highlightColor="#ffffff"
             trigger="hover"
-            clickStrength={1.5}
+            clickStrength={1.4}
             enabled
           />
         ) : (
@@ -419,25 +287,15 @@ function App() {
           <span>{formattedTime}</span>
         </div>
         <p className="eyebrow">ERIK · B-1-O · FRONTEND DEVELOPER & UI DESIGNER</p>
-        <h1>
-          Interfaces that
-          <br />
-          <span>feel alive.</span>
-        </h1>
+        <h1>Interfaces that<br /><span>feel alive.</span></h1>
         <p className="intro">
           I design and build modern React & TypeScript surfaces — atmospheric web experiences,
           product UIs and tools with motion, depth and quiet detail. Based in Los Angeles.
           Open for freelance on Fiverr and Contra.
         </p>
         <div className="hero-actions">
-          <a href="#work" className="enter-link">
-            <span>VIEW WORK</span>
-            <span className="enter-glyph">↘</span>
-          </a>
-          <a href="#connect" className="enter-link enter-link-ghost">
-            <span>HIRE ME</span>
-            <span className="enter-glyph">→</span>
-          </a>
+          <a href="#work" className="enter-link"><span>VIEW WORK</span><span className="enter-glyph">↘</span></a>
+          <a href="#connect" className="enter-link enter-link-ghost"><span>HIRE ME</span><span className="enter-glyph">→</span></a>
         </div>
         <div className="hero-stats hud-copy">
           <div><strong>12+</strong><span>PUBLIC PROJECTS</span></div>
@@ -482,27 +340,15 @@ function App() {
         <div className="skills-grid">
           <div className="skills-block hud">
             <h4>Frontend</h4>
-            <ul className="skills-list">
-              {skills.frontend.map(s => (
-                <li key={s} className="skill-chip">{s}</li>
-              ))}
-            </ul>
+            <ul className="skills-list">{skills.frontend.map(s => <li key={s} className="skill-chip">{s}</li>)}</ul>
           </div>
           <div className="skills-block hud">
             <h4>Graphics</h4>
-            <ul className="skills-list">
-              {skills.graphics.map(s => (
-                <li key={s} className="skill-chip">{s}</li>
-              ))}
-            </ul>
+            <ul className="skills-list">{skills.graphics.map(s => <li key={s} className="skill-chip">{s}</li>)}</ul>
           </div>
           <div className="skills-block hud">
             <h4>Systems</h4>
-            <ul className="skills-list">
-              {skills.other.map(s => (
-                <li key={s} className="skill-chip">{s}</li>
-              ))}
-            </ul>
+            <ul className="skills-list">{skills.other.map(s => <li key={s} className="skill-chip">{s}</li>)}</ul>
           </div>
         </div>
       </section>
@@ -515,7 +361,7 @@ function App() {
         </div>
         <div className="work-carousel hud">
           <FlexCarousel
-            items={carouselItems}
+            items={CAROUSEL_ITEMS}
             preset="liquid"
             intro="rise"
             cardHeight={0.52}
@@ -571,10 +417,7 @@ function App() {
         <div className="connect-label">07 / CONNECT</div>
         <div>
           <h2>Find me<br /><span>online.</span></h2>
-          <p>
-            Open to freelance and product work. Reach out on Fiverr, Contra, LinkedIn
-            or GitHub — or message directly on Telegram.
-          </p>
+          <p>Open to freelance and product work. Reach out on Fiverr, Contra, LinkedIn or GitHub — or message directly on Telegram.</p>
         </div>
         <ul className="social-list">
           {socials.map(s => (
@@ -594,9 +437,7 @@ function App() {
         <span>REACT BITS · RIPPLE</span>
       </footer>
 
-      {openProject ? (
-        <ProjectPanel project={openProject} onClose={() => setOpenProject(null)} />
-      ) : null}
+      {openProject ? <ProjectPanel project={openProject} onClose={() => setOpenProject(null)} /> : null}
     </main>
   );
 }
