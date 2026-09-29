@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import RippleDistortion from './RippleDistortion';
 
 const ASSET_BASE = import.meta.env.BASE_URL;
+const assetUrl = name => `${window.location.origin}${ASSET_BASE}assets/${name}`;
 
 const SFX = {
-  click: `${ASSET_BASE}assets/Cough_Nothing_Phone_2_Stock_Notification-649463-mobiles24.mp3`,
-  navigation: `${ASSET_BASE}assets/Squiggle_Nothing_Phone_1_Stock_Notification-645458-mobiles24.mp3`,
-  refresh: `${ASSET_BASE}assets/Bulb_One_Nothing_Phone_2_Stock_Notification-649453-mobiles24.mp3`,
-  error: `${ASSET_BASE}assets/Lonba_Nothing_Phone_2_Stock_Notification-649461-mobiles24.mp3`,
+  click: assetUrl('Cough_Nothing_Phone_2_Stock_Notification-649463-mobiles24.mp3'),
+  navigation: assetUrl('Squiggle_Nothing_Phone_1_Stock_Notification-645458-mobiles24.mp3'),
+  refresh: assetUrl('Bulb_One_Nothing_Phone_2_Stock_Notification-649453-mobiles24.mp3'),
+  error: assetUrl('Lonba_Nothing_Phone_2_Stock_Notification-649461-mobiles24.mp3'),
 };
 
 const notes = [
@@ -37,19 +38,22 @@ function App() {
 
   const playSfx = useRef(type => {
     const src = SFX[type];
-    if (!src) return;
+    if (!src) return Promise.resolve(null);
 
     let audio = audioRef.current[type];
     if (!audio) {
-      audio = new Audio(src);
+      audio = new Audio();
       audio.preload = 'auto';
-      audio.volume = 0.62;
+      audio.volume = 0.72;
+      audio.src = src;
       audioRef.current[type] = audio;
     }
 
     audio.currentTime = 0;
     const result = audio.play();
-    if (result && typeof result.catch === 'function') result.catch(() => {});
+    return result && typeof result.then === 'function'
+      ? result.then(() => audio).catch(() => null)
+      : Promise.resolve(audio);
   }).current;
 
   useEffect(() => {
@@ -100,8 +104,12 @@ function App() {
     };
   }, [playSfx]);
 
-  const refreshPage = () => {
-    window.setTimeout(() => window.location.reload(), 120);
+  const refreshPage = async event => {
+    event.preventDefault();
+    const audio = await playSfx('refresh');
+    const duration = audio && Number.isFinite(audio.duration) ? audio.duration : 0;
+    const wait = Math.min(Math.max(duration * 1000, 420), 1100);
+    window.setTimeout(() => window.location.reload(), wait);
   };
 
   const formattedTime = time.toLocaleTimeString([], {
