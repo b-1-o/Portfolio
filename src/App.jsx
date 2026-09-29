@@ -69,10 +69,7 @@ function App() {
       if (!target) return;
 
       const refresh = target.closest('[data-refresh]');
-      if (refresh) {
-        playSfx('refresh');
-        return;
-      }
+      if (refresh) return;
 
       const anchor = target.closest('a[href]');
       const href = anchor?.getAttribute('href') || '';
