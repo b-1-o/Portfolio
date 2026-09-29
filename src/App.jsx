@@ -8,27 +8,19 @@ import sfxNav from '../assets/Squiggle_Nothing_Phone_1_Stock_Notification-645458
 import sfxRefresh from '../assets/Bulb_One_Nothing_Phone_2_Stock_Notification-649453-mobiles24.mp3';
 import sfxError from '../assets/Lonba_Nothing_Phone_2_Stock_Notification-649461-mobiles24.mp3';
 
-function projectIcon(label, accent = '#8300ff') {
+function projectIcon(label) {
   const initials = String(label || '?').slice(0, 2).toUpperCase();
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="rgba(255,255,255,0.10)"/>
-      <stop offset="55%" stop-color="rgba(131,0,255,0.14)"/>
-      <stop offset="100%" stop-color="rgba(255,255,255,0.04)"/>
+      <stop offset="0%" stop-color="#2a2832"/>
+      <stop offset="50%" stop-color="#2e2a36"/>
+      <stop offset="100%" stop-color="#252430"/>
     </linearGradient>
-    <radialGradient id="glow" cx="50%" cy="38%" r="55%">
-      <stop offset="0%" stop-color="${accent}" stop-opacity="0.35"/>
-      <stop offset="100%" stop-color="${accent}" stop-opacity="0"/>
-    </radialGradient>
   </defs>
-  <rect width="720" height="900" fill="#08080c"/>
-  <rect x="28" y="28" width="664" height="844" rx="56" fill="url(#bg)" stroke="rgba(255,255,255,0.16)" stroke-width="2"/>
-  <rect x="28" y="28" width="664" height="844" rx="56" fill="url(#glow)"/>
-  <circle cx="360" cy="340" r="92" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
-  <text x="360" y="358" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="64" font-weight="600" fill="rgba(255,255,255,0.92)" letter-spacing="-2">${initials}</text>
-  <text x="360" y="520" text-anchor="middle" font-family="ui-monospace,monospace" font-size="22" font-weight="500" fill="rgba(255,255,255,0.38)" letter-spacing="6">${String(label).toUpperCase().slice(0, 14)}</text>
-  <rect x="280" y="560" width="160" height="2" fill="rgba(255,255,255,0.12)"/>
+  <rect width="720" height="900" fill="#1a1a20"/>
+  <rect x="24" y="24" width="672" height="852" rx="48" fill="url(#bg)" stroke="rgba(255,255,255,0.10)" stroke-width="1.5"/>
+  <text x="360" y="480" text-anchor="middle" dominant-baseline="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="140" font-weight="600" fill="rgba(255,255,255,0.78)" letter-spacing="-4">${initials}</text>
 </svg>`;
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
@@ -337,20 +329,20 @@ function App() {
         <div className="work-head">
           <span className="hud-copy work-kicker">04 / SELECTED WORK</span>
           <h2>Projects</h2>
-          <p>Drag the row or click a card — opens the project panel with repo and live site.</p>
+          <p>Scroll or drag the row — click a card to open the project panel.</p>
         </div>
         <div className="work-carousel hud">
           <FlexCarousel
             items={CAROUSEL_ITEMS}
             preset="liquid"
             intro="rise"
-            cardHeight={0.52}
+            cardHeight={0.55}
             gap={14}
             radius={22}
             squeeze={0.15}
             focusOnClick={false}
             captions
-            captureWheel={false}
+            captureWheel={true}
             autoplay={false}
             dispersion={0.25}
             onSelect={index => {

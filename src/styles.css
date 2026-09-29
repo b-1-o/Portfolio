@@ -807,29 +807,24 @@ h1 span {
 }
 
 @media (max-width: 800px) {
-  .topbar { left: 14px; right: 14px; top: 14px; }
+  .topbar { left: 14px; right: 14px; top: 14px; height: 48px; padding: 0 10px 0 12px; }
   .hero-copy {
     width: 92vw;
-    padding: 130px 24px 100px;
+    padding: 110px 18px 80px;
   }
   .system-code {
     flex-wrap: wrap;
     gap: 10px 18px;
   }
   h1 { font-size: clamp(42px, 12vw, 72px); }
-  .surface-hud {
-    top: auto;
-    right: 24px;
-    bottom: 40px;
-    transform: none;
-  }
+  .surface-hud { display: none; }
   .about-section,
   .connect-section,
   .work-section,
   .skills-section,
   .services-section,
   .timeline-section {
-    width: calc(100vw - 28px);
+    width: calc(100vw - 24px);
   }
   .about-section,
   .connect-section {
@@ -843,13 +838,23 @@ h1 span {
   .services-section,
   .timeline-section { margin-bottom: 70px; }
   .work-carousel {
-    height: min(420px, 58vh);
+    height: min(380px, 52vh);
     border-radius: 16px;
+  }
+  .work-carousel .flex-carousel__caption {
+    top: auto;
+    bottom: 12px;
+  }
+  .work-carousel .flex-carousel__title {
+    font-size: 14px;
   }
   .timeline-item { grid-template-columns: 64px 1fr; gap: 12px; }
   .hero-stats { gap: 18px; margin-top: 36px; }
-  .site-nav { gap: 10px; }
+  .site-nav { gap: 8px; }
   .site-nav a { font-size: 7px; }
+  .site-nav a:nth-child(n+4) { display: none; }
+  .refresh-button span:last-child { display: none; }
+  .refresh-button { padding: 7px 9px; }
   .footer {
     width: calc(100% - 28px);
     margin: 0 14px;
@@ -859,6 +864,34 @@ h1 span {
   .hud {
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+  }
+  .project-panel-backdrop {
+    padding: 16px;
+    align-items: flex-end;
+  }
+  .project-panel {
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .work-carousel {
+    height: min(320px, 48vh);
+  }
+  h1 {
+    font-size: clamp(36px, 11vw, 52px);
+  }
+  .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+  .services-grid {
+    grid-template-columns: 1fr;
   }
 }
 
