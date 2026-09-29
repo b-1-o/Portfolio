@@ -1,14 +1,22 @@
 import { useEffect, useRef, useState } from 'react';
 import RippleDistortion from './RippleDistortion';
 
-const ASSET_BASE = import.meta.env.BASE_URL;
-const assetUrl = name => `${window.location.origin}${ASSET_BASE}assets/${name}`;
+// Vite bundles these from /assets — works in dev and on GitHub Pages
+import pageBg from '../assets/page.png';
+import sfxClick from '../assets/Cough_Nothing_Phone_2_Stock_Notification-649463-mobiles24.mp3';
+import sfxNav from '../assets/Squiggle_Nothing_Phone_1_Stock_Notification-645458-mobiles24.mp3';
+import sfxRefresh from '../assets/Bulb_One_Nothing_Phone_2_Stock_Notification-649453-mobiles24.mp3';
+import sfxError from '../assets/Lonba_Nothing_Phone_2_Stock_Notification-649461-mobiles24.mp3';
 
+// click       → Cough   — any button
+// navigation  → Squiggle — in-page links (#home, #about, #notes, ENTER…)
+// refresh     → Bulb    — REFRESH button (then reload)
+// error       → Lonba   — invalid input / runtime errors
 const SFX = {
-  click: assetUrl('Cough_Nothing_Phone_2_Stock_Notification-649463-mobiles24.mp3'),
-  navigation: assetUrl('Squiggle_Nothing_Phone_1_Stock_Notification-645458-mobiles24.mp3'),
-  refresh: assetUrl('Bulb_One_Nothing_Phone_2_Stock_Notification-649453-mobiles24.mp3'),
-  error: assetUrl('Lonba_Nothing_Phone_2_Stock_Notification-649461-mobiles24.mp3'),
+  click: sfxClick,
+  navigation: sfxNav,
+  refresh: sfxRefresh,
+  error: sfxError,
 };
 
 const notes = [
@@ -36,6 +44,28 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
+  // Preload SFX on first user gesture (browser autoplay policy)
+  useEffect(() => {
+    const unlock = () => {
+      Object.entries(SFX).forEach(([type, src]) => {
+        if (audioRef.current[type]) return;
+        const a = new Audio();
+        a.preload = 'auto';
+        a.volume = 0.72;
+        a.src = src;
+        audioRef.current[type] = a;
+      });
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('keydown', unlock);
+    };
+    window.addEventListener('pointerdown', unlock, { once: true, passive: true });
+    window.addEventListener('keydown', unlock, { once: true });
+    return () => {
+      window.removeEventListener('pointerdown', unlock);
+      window.removeEventListener('keydown', unlock);
+    };
+  }, []);
+
   const playSfx = useRef(type => {
     const src = SFX[type];
     if (!src) return Promise.resolve(null);
@@ -49,7 +79,21 @@ function App() {
       audioRef.current[type] = audio;
     }
 
-    audio.currentTime = 0;
+    // Allow overlapping plays on rapid clicks
+    if (!audio.paused && audio.currentTime > 0.02) {
+      const clone = audio.cloneNode();
+      clone.volume = 0.72;
+      const result = clone.play();
+      return result && typeof result.then === 'function'
+        ? result.then(() => clone).catch(() => null)
+        : Promise.resolve(clone);
+    }
+
+    try {
+      audio.currentTime = 0;
+    } catch {
+      /* ignore seek errors */
+    }
     const result = audio.play();
     return result && typeof result.then === 'function'
       ? result.then(() => audio).catch(() => null)
@@ -68,9 +112,10 @@ function App() {
       const target = event.target instanceof Element ? event.target : null;
       if (!target) return;
 
-      const refresh = target.closest('[data-refresh]');
-      if (refresh) return;
+      // REFRESH has its own handler (Bulb + reload)
+      if (target.closest('[data-refresh]')) return;
 
+      // In-page navigation → Squiggle
       const anchor = target.closest('a[href]');
       const href = anchor?.getAttribute('href') || '';
       if (href.startsWith('#') && href.length > 1) {
@@ -78,8 +123,10 @@ function App() {
         return;
       }
 
-      const button = target.closest('button,[role="button"]');
-      if (button) playSfx('click');
+      // Any button → Cough
+      if (target.closest('button,[role="button"]')) {
+        playSfx('click');
+      }
     };
 
     const onInvalid = () => playSfx('error');
@@ -103,6 +150,7 @@ function App() {
 
   const refreshPage = async event => {
     event.preventDefault();
+    event.stopPropagation();
     const audio = await playSfx('refresh');
     const duration = audio && Number.isFinite(audio.duration) ? audio.duration : 0;
     const wait = Math.min(Math.max(duration * 1000, 420), 1100);
@@ -118,24 +166,25 @@ function App() {
   return (
     <main className="page">
       <div className="visual-stage" aria-hidden="true">
+        {/* page.png — sole full-viewport background with ripple distortion */}
         <RippleDistortion
-          src={`${ASSET_BASE}assets/page.png`}
+          src={pageBg}
           brushSize={65}
           strength={0.09}
           swirl={0.65}
           rings={2.5}
           grayscale
+          spacing={1}
+          tint="#8300ff"
+          quality="high"
           spread={5}
           fade={3}
-          spacing={1}
           dispersion={0}
           glint={0}
-          tint="#8300ff"
           tintAmount={0.1}
           highlightColor="#ffffff"
           trigger="hover"
           clickStrength={2}
-          quality="high"
           enabled
         />
         <div className="image-dimmer" />
