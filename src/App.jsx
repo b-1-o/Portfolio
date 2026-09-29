@@ -99,7 +99,6 @@ function App() {
   }, [playSfx]);
 
   const refreshPage = () => {
-    playSfx('refresh');
     window.setTimeout(() => window.location.reload(), 120);
   };
 
