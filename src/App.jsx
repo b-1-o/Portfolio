@@ -95,14 +95,9 @@ function ProjectPanel({ project, onClose }) {
   useEffect(() => {
     const prev = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    const onKey = e => {
-      if (e.key === 'Escape') onClose();
-    };
+    const onKey = e => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.style.overflow = prev;
-      window.removeEventListener('keydown', onKey);
-    };
+    return () => { document.body.style.overflow = prev; window.removeEventListener('keydown', onKey); };
   }, [onClose]);
 
   return (
@@ -165,14 +160,8 @@ function App() {
 
   useEffect(() => {
     const root = document.documentElement;
-    let mx = 50;
-    let my = 50;
-    let raf = 0;
-    const flush = () => {
-      raf = 0;
-      root.style.setProperty('--mx', mx + '%');
-      root.style.setProperty('--my', my + '%');
-    };
+    let mx = 50, my = 50, raf = 0;
+    const flush = () => { raf = 0; root.style.setProperty('--mx', mx + '%'); root.style.setProperty('--my', my + '%'); };
     const onPointerMove = event => {
       mx = (event.clientX / window.innerWidth) * 100;
       my = (event.clientY / window.innerHeight) * 100;
@@ -184,13 +173,8 @@ function App() {
       if (target.closest('[data-refresh]')) return;
       const anchor = target.closest('a[href]');
       const href = anchor?.getAttribute('href') || '';
-      if (href.startsWith('#') && href.length > 1) {
-        playSfx('navigation');
-        return;
-      }
-      if (target.closest('button') || target.closest('[role="button"]') || target.closest('[data-project]')) {
-        playSfx('click');
-      }
+      if (href.startsWith('#') && href.length > 1) { playSfx('navigation'); return; }
+      if (target.closest('button') || target.closest('[role="button"]') || target.closest('[data-project]')) playSfx('click');
     };
     const onInvalid = () => playSfx('error');
     const onError = () => playSfx('error');
@@ -224,11 +208,7 @@ function App() {
     setOpenProject(project);
   };
 
-  const formattedTime = time.toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-  });
+  const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 
   return (
     <main className="page">
@@ -365,12 +345,14 @@ function App() {
             preset="liquid"
             intro="rise"
             cardHeight={0.52}
-            gap={12}
-            squeeze={0.2}
+            gap={14}
+            radius={22}
+            squeeze={0.15}
             focusOnClick={false}
             captions
             captureWheel={false}
             autoplay={false}
+            dispersion={0.25}
             onSelect={index => {
               const p = projects[index];
               if (p) openPanel(p);
