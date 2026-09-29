@@ -464,77 +464,41 @@ h1 span {
   line-height: 1.55;
 }
 
-.work-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 10px;
-}
-
-.work-card {
-  padding: 18px;
-  border-radius: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  min-height: 200px;
-  text-align: left;
-  cursor: pointer;
-  color: inherit;
+.work-carousel {
+  position: relative;
   width: 100%;
-  transition: transform .3s ease, background .3s ease;
-  content-visibility: auto;
-  contain-intrinsic-size: 200px;
+  height: min(560px, 70vh);
+  border-radius: 22px;
+  overflow: hidden;
+  isolation: isolate;
+  contain: layout style;
 }
 
-.work-card:hover {
-  transform: translateY(-3px);
-  background: linear-gradient(135deg, rgba(255,255,255,.11), rgba(255,255,255,.025));
+.work-carousel .flex-carousel {
+  background: transparent;
 }
 
-.work-card-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font: 500 8px/1 'DM Mono', monospace;
-  letter-spacing: .12em;
-  color: rgba(255,255,255,.35);
+.work-carousel .flex-carousel__caption {
+  color: rgba(255, 255, 255, 0.9);
+  font-family: Inter, system-ui, sans-serif;
 }
 
-.work-card h3 {
-  margin: 0;
-  font-size: 20px;
-  letter-spacing: -.04em;
-  font-weight: 600;
+.work-carousel .flex-carousel__title {
+  font-size: 16px;
+  letter-spacing: -0.02em;
 }
 
-.work-card p {
-  margin: 0;
-  color: rgba(255,255,255,.48);
-  font-size: 13px;
-  line-height: 1.5;
-  flex: 1;
+.work-carousel .flex-carousel__subtitle {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.55;
 }
 
-.work-stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.work-stack span {
-  font: 500 8px/1 'DM Mono', monospace;
-  letter-spacing: .08em;
-  color: rgba(255,255,255,.32);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 999px;
-  padding: 5px 8px;
-}
-
-.work-open-hint {
-  margin-top: auto;
-  font: 500 8px/1 'DM Mono', monospace;
-  letter-spacing: .14em;
-  color: rgba(255,255,255,.28);
+.work-carousel .flex-carousel__count {
+  font-family: 'DM Mono', monospace;
+  letter-spacing: 0.08em;
 }
 
 .services-section,
@@ -881,6 +845,10 @@ h1 span {
   .work-section,
   .services-section,
   .timeline-section { margin-bottom: 70px; }
+  .work-carousel {
+    height: min(420px, 58vh);
+    border-radius: 16px;
+  }
   .timeline-item { grid-template-columns: 64px 1fr; gap: 12px; }
   .hero-stats { gap: 18px; margin-top: 36px; }
   .site-nav { gap: 10px; }
