@@ -1,11 +1,37 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import RippleDistortion from './RippleDistortion';
+import FlexCarousel from './FlexCarousel';
 
 import pageBg from '../assets/page.png';
 import sfxClick from '../assets/Cough_Nothing_Phone_2_Stock_Notification-649463-mobiles24.mp3';
 import sfxNav from '../assets/Squiggle_Nothing_Phone_1_Stock_Notification-645458-mobiles24.mp3';
 import sfxRefresh from '../assets/Bulb_One_Nothing_Phone_2_Stock_Notification-649453-mobiles24.mp3';
 import sfxError from '../assets/Lonba_Nothing_Phone_2_Stock_Notification-649461-mobiles24.mp3';
+
+function projectIcon(label, accent = '#8300ff') {
+  const initials = String(label || '?').slice(0, 2).toUpperCase();
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="720" height="900" viewBox="0 0 720 900">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.10)"/>
+      <stop offset="55%" stop-color="rgba(131,0,255,0.14)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.04)"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="38%" r="55%">
+      <stop offset="0%" stop-color="${accent}" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="${accent}" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="720" height="900" fill="#08080c"/>
+  <rect x="28" y="28" width="664" height="844" rx="56" fill="url(#bg)" stroke="rgba(255,255,255,0.16)" stroke-width="2"/>
+  <rect x="28" y="28" width="664" height="844" rx="56" fill="url(#glow)"/>
+  <circle cx="360" cy="340" r="92" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.22)" stroke-width="2"/>
+  <text x="360" y="358" text-anchor="middle" font-family="ui-sans-serif,system-ui,sans-serif" font-size="64" font-weight="600" fill="rgba(255,255,255,0.92)" letter-spacing="-2">${initials}</text>
+  <text x="360" y="520" text-anchor="middle" font-family="ui-monospace,monospace" font-size="22" font-weight="500" fill="rgba(255,255,255,0.38)" letter-spacing="6">${String(label).toUpperCase().slice(0, 14)}</text>
+  <rect x="280" y="560" width="160" height="2" fill="rgba(255,255,255,0.12)"/>
+</svg>`;
+  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
+}
 
 const SFX = {
   click: sfxClick,
@@ -132,22 +158,10 @@ const projects = [
 ];
 
 const services = [
-  {
-    title: 'Product UI',
-    text: 'Interfaces for real products — dashboards, booking flows, music tools and command centers with clear hierarchy.',
-  },
-  {
-    title: 'Immersive web',
-    text: 'Atmospheric experiences with WebGL, motion and custom interaction models that still stay usable.',
-  },
-  {
-    title: 'Frontend systems',
-    text: 'React + TypeScript apps with solid structure, Vite builds and attention to performance on real devices.',
-  },
-  {
-    title: 'Freelance delivery',
-    text: 'Available on Fiverr and Contra for focused builds, redesigns and interactive portfolio pieces.',
-  },
+  { title: 'Product UI', text: 'Interfaces for real products — dashboards, booking flows, music tools and command centers with clear hierarchy.' },
+  { title: 'Immersive web', text: 'Atmospheric experiences with WebGL, motion and custom interaction models that still stay usable.' },
+  { title: 'Frontend systems', text: 'React + TypeScript apps with solid structure, Vite builds and attention to performance on real devices.' },
+  { title: 'Freelance delivery', text: 'Available on Fiverr and Contra for focused builds, redesigns and interactive portfolio pieces.' },
 ];
 
 const timeline = [
@@ -244,7 +258,6 @@ function App() {
   const playSfx = useCallback(type => {
     const src = SFX[type];
     if (!src) return Promise.resolve(null);
-
     let audio = audioRef.current[type];
     if (!audio) {
       audio = new Audio(src);
@@ -252,7 +265,6 @@ function App() {
       audio.volume = type === 'click' ? 0.85 : 0.72;
       audioRef.current[type] = audio;
     }
-
     if (type === 'click' || (!audio.paused && audio.currentTime > 0.02)) {
       const clone = new Audio(src);
       clone.volume = audio.volume;
@@ -261,7 +273,6 @@ function App() {
         ? result.then(() => clone).catch(() => null)
         : Promise.resolve(clone);
     }
-
     try {
       audio.currentTime = 0;
     } catch {
@@ -278,31 +289,26 @@ function App() {
     let mx = 50;
     let my = 50;
     let raf = 0;
-
     const flush = () => {
       raf = 0;
       root.style.setProperty('--mx', mx + '%');
       root.style.setProperty('--my', my + '%');
     };
-
     const onPointerMove = event => {
       mx = (event.clientX / window.innerWidth) * 100;
       my = (event.clientY / window.innerHeight) * 100;
       if (!raf) raf = requestAnimationFrame(flush);
     };
-
     const onClick = event => {
       const target = event.target instanceof Element ? event.target : null;
       if (!target) return;
       if (target.closest('[data-refresh]')) return;
-
       const anchor = target.closest('a[href]');
       const href = anchor?.getAttribute('href') || '';
       if (href.startsWith('#') && href.length > 1) {
         playSfx('navigation');
         return;
       }
-
       if (
         target.closest('button') ||
         target.closest('[role="button"]') ||
@@ -311,17 +317,14 @@ function App() {
         playSfx('click');
       }
     };
-
     const onInvalid = () => playSfx('error');
     const onError = () => playSfx('error');
     const onUnhandledRejection = () => playSfx('error');
-
     window.addEventListener('pointermove', onPointerMove, { passive: true });
     document.addEventListener('click', onClick, true);
     document.addEventListener('invalid', onInvalid, true);
     window.addEventListener('error', onError);
     window.addEventListener('unhandledrejection', onUnhandledRejection);
-
     return () => {
       if (raf) cancelAnimationFrame(raf);
       window.removeEventListener('pointermove', onPointerMove);
@@ -345,6 +348,13 @@ function App() {
     playSfx('click');
     setOpenProject(project);
   };
+
+  const carouselItems = projects.map(p => ({
+    src: projectIcon(p.name),
+    alt: p.name,
+    title: p.name,
+    subtitle: p.kind,
+  }));
 
   const formattedTime = time.toLocaleTimeString([], {
     hour: '2-digit',
@@ -389,7 +399,6 @@ function App() {
           <span className="brand-mark"><i /><i /><i /></span>
           <span>b-1-o</span>
         </a>
-
         <nav className="site-nav" aria-label="Primary">
           <a href="#home">HOME</a>
           <a href="#about">ABOUT</a>
@@ -397,7 +406,6 @@ function App() {
           <a href="#services">SERVICES</a>
           <a href="#connect">CONNECT</a>
         </nav>
-
         <button type="button" className="refresh-button" data-refresh onClick={refreshPage} aria-label="Refresh page">
           <span className="refresh-glyph">↻</span>
           REFRESH
@@ -410,21 +418,17 @@ function App() {
           <span>LA / FRONTEND</span>
           <span>{formattedTime}</span>
         </div>
-
         <p className="eyebrow">ERIK · B-1-O · FRONTEND DEVELOPER & UI DESIGNER</p>
-
         <h1>
           Interfaces that
           <br />
           <span>feel alive.</span>
         </h1>
-
         <p className="intro">
           I design and build modern React & TypeScript surfaces — atmospheric web experiences,
           product UIs and tools with motion, depth and quiet detail. Based in Los Angeles.
           Open for freelance on Fiverr and Contra.
         </p>
-
         <div className="hero-actions">
           <a href="#work" className="enter-link">
             <span>VIEW WORK</span>
@@ -435,7 +439,6 @@ function App() {
             <span className="enter-glyph">→</span>
           </a>
         </div>
-
         <div className="hero-stats hud-copy">
           <div><strong>12+</strong><span>PUBLIC PROJECTS</span></div>
           <div><strong>REACT</strong><span>PRIMARY STACK</span></div>
@@ -508,32 +511,25 @@ function App() {
         <div className="work-head">
           <span className="hud-copy work-kicker">04 / SELECTED WORK</span>
           <h2>Projects</h2>
-          <p>Click any card for a mini panel — repository and live site when available.</p>
+          <p>Drag the row or click a card — opens the project panel with repo and live site.</p>
         </div>
-        <div className="work-grid">
-          {projects.map(p => (
-            <button
-              key={p.id}
-              type="button"
-              className="work-card hud"
-              data-project
-              onClick={() => openPanel(p)}
-              aria-label={`Open ${p.name}`}
-            >
-              <div className="work-card-top">
-                <span className="work-id">{p.id}</span>
-                <span className="work-kind">{p.kind}</span>
-              </div>
-              <h3>{p.name}</h3>
-              <p>{p.blurb}</p>
-              <div className="work-stack">
-                {p.stack.slice(0, 3).map(t => (
-                  <span key={t}>{t}</span>
-                ))}
-              </div>
-              <div className="work-open-hint">CLICK TO OPEN</div>
-            </button>
-          ))}
+        <div className="work-carousel hud">
+          <FlexCarousel
+            items={carouselItems}
+            preset="liquid"
+            intro="rise"
+            cardHeight={0.52}
+            gap={12}
+            squeeze={0.2}
+            focusOnClick={false}
+            captions
+            captureWheel={false}
+            autoplay={false}
+            onSelect={index => {
+              const p = projects[index];
+              if (p) openPanel(p);
+            }}
+          />
         </div>
       </section>
 
