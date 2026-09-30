@@ -3,6 +3,19 @@ import { writeFile } from 'node:fs/promises';
 const owner = 'b-1-o';
 const token = process.env.GITHUB_TOKEN || process.env.GH_TOKEN;
 
+// Only these repositories are allowed to appear in the portfolio.
+// Add/remove names here whenever you want to change the selection.
+const allowedRepos = new Set([
+  'music',
+  'heaven',
+  'barber',
+  'my',
+  'nothing',
+  's1eep',
+  'Portfolio',
+  'build',
+]);
+
 async function github(path) {
   const response = await fetch(`https://api.github.com${path}`, {
     headers: {
@@ -38,7 +51,9 @@ const iconFor = (name) => {
 const languageLabel = (language) => language ? `GITHUB · ${language.toUpperCase()}` : 'GITHUB · PROJECT';
 
 const repos = await github(`/users/${owner}/repos?per_page=100&type=owner&sort=updated`);
-const publicRepos = repos.filter(repo => !repo.private && !repo.archived && !repo.fork);
+const publicRepos = repos.filter(
+  repo => !repo.private && !repo.archived && !repo.fork && allowedRepos.has(repo.name)
+);
 
 const projects = [];
 
@@ -79,4 +94,4 @@ projects.forEach((project, index) => {
 });
 
 await writeFile('src/projects.auto.json', `${JSON.stringify(projects, null, 2)}\n`, 'utf8');
-console.log(`Synced ${projects.length} public GitHub repositories.`);
+console.log(`Synced ${projects.length} selected GitHub repositories.`);
