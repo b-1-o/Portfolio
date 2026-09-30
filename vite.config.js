@@ -24,6 +24,6 @@ function githubProjectsPlugin() {
 }
 
 export default defineConfig({
-  base: '/s1eep/',
+  base: '/portfolio/',
   plugins: [react(), githubProjectsPlugin()],
 });
