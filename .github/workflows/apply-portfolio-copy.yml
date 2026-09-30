@@ -1,0 +1,47 @@
+name: Apply portfolio copy updates
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  update-copy:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update social links and project label
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('src/App.jsx')
+          text = path.read_text()
+
+          text = re.sub(r"\s*\{ label: 'TikTok',[^\n]*\},", '', text)
+          text = re.sub(r"\s*\{ label: 'Instagram',[^\n]*\},", '', text)
+          text = re.sub(
+              r"\{ label: 'Telegram', href: '[^']*', note: '[^']*' \},",
+              "{ label: 'Telegram', href: 'https://t.me/blood_on_my_body', note: 'blood_on_my_body' },",
+              text,
+          )
+          text = re.sub(r"name: 'Portfolio'", "name: 'portfolio'", text)
+          text = re.sub(r"name: \"Portfolio\"", 'name: \"portfolio\"', text)
+
+          path.write_text(text)
+          PY
+
+      - name: Commit changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add src/App.jsx
+          git diff --cached --quiet && exit 0
+          git commit -m "Update portfolio social links and project label"
+          git push
