@@ -31,6 +31,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Refresh GitHub project catalog
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/sync-projects.mjs
+
       - name: Build
         run: npm run build
 
