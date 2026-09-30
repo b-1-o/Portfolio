@@ -359,7 +359,7 @@ function App() {
       <section id="work" className="work-section">
         <div className="work-head">
           <span className="hud-copy work-kicker">04 / SELECTED WORK</span>
-          <h2>Projects</h2>
+          <h2>portfolio</h2>
           <p>Scroll or drag the row — click a card to open the project panel.</p>
         </div>
         <div className="work-carousel hud">
