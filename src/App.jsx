@@ -111,9 +111,7 @@ const socials = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/b1o/', note: 'b1o' },
   { label: 'Fiverr', href: 'https://www.fiverr.com/webbio/', note: 'webbio' },
   { label: 'Contra', href: 'https://contra.com/erik_868bxnxk', note: 'Erik' },
-  { label: 'TikTok', href: 'https://www.tiktok.com/@psycho_b1o', note: '@psycho_b1o' },
-  { label: 'Instagram', href: 'https://www.instagram.com/__._saint', note: '@__._saint' },
-  { label: 'Telegram', href: 'https://t.me/blood_on_music', note: 'blood_on_music' },
+  { label: 'Telegram', href: 'https://t.me/blood_on_my_body', note: 'blood_on_my_body' },
 ];
 
 function ProjectPanel({ project, onClose }) {
