@@ -1,167 +1,106 @@
 [
   {
     "id": "01",
-    "name": "goth",
-    "icon": "web",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "goth — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": ["HTML"],
-    "repo": "https://github.com/b-1-o/goth",
-    "site": null
+    "name": "s1eep",
+    "icon": "sleep",
+    "kind": "GITHUB · JAVASCRIPT",
+    "blurb": "s1eep — public GitHub project.",
+    "detail": "Public GitHub repository · main branch · updated 9/30/2026.",
+    "stack": [
+      "JavaScript"
+    ],
+    "repo": "https://github.com/b-1-o/s1eep",
+    "site": "http://b-1-o.github.io/s1eep/"
   },
   {
     "id": "02",
-    "name": "Bio",
-    "icon": "web",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "Bio — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/Bio",
-    "site": null
-  },
-  {
-    "id": "03",
-    "name": "my",
-    "icon": "web",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "my — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/my",
-    "site": "https://b-1-o.github.io/my/"
-  },
-  {
-    "id": "04",
-    "name": "Biogram",
-    "icon": "phone",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "Biogram — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/Biogram",
-    "site": null
-  },
-  {
-    "id": "05",
-    "name": "b-1-o",
-    "icon": "web",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "b-1-o — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/b-1-o",
-    "site": null
-  },
-  {
-    "id": "06",
-    "name": "biohub",
-    "icon": "linux",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "biohub — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/biohub",
-    "site": null
-  },
-  {
-    "id": "07",
-    "name": "music",
-    "icon": "music",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "music — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/music",
-    "site": "https://b-1-o.github.io/music/"
-  },
-  {
-    "id": "08",
-    "name": "b1o-remote-agent",
-    "icon": "agent",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "b1o-remote-agent — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/b1o-remote-agent",
-    "site": null
-  },
-  {
-    "id": "09",
-    "name": "build",
-    "icon": "build",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "build — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/build",
-    "site": null
-  },
-  {
-    "id": "10",
-    "name": "Biogram-iOS-26",
-    "icon": "phone",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "Biogram-iOS-26 — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/Biogram-iOS-26",
-    "site": null
-  },
-  {
-    "id": "11",
-    "name": "portfolio",
-    "icon": "web",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "portfolio — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/Portfolio",
-    "site": null
-  },
-  {
-    "id": "12",
     "name": "heaven",
     "icon": "terminal",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "heaven — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
+    "kind": "GITHUB · TYPESCRIPT",
+    "blurb": "heaven — public GitHub project.",
+    "detail": "Public GitHub repository · main branch · updated 9/30/2026.",
+    "stack": [
+      "TypeScript"
+    ],
     "repo": "https://github.com/b-1-o/heaven",
     "site": "https://b-1-o.github.io/heaven/"
   },
   {
-    "id": "13",
-    "name": "barber",
-    "icon": "scissors",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "barber — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/barber",
-    "site": null
-  },
-  {
-    "id": "14",
-    "name": "s1eep",
-    "icon": "sleep",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "s1eep — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
-    "repo": "https://github.com/b-1-o/s1eep",
-    "site": "https://b-1-o.github.io/s1eep/"
-  },
-  {
-    "id": "15",
+    "id": "03",
     "name": "nothing",
     "icon": "phone",
-    "kind": "GITHUB · PROJECT",
-    "blurb": "nothing — GitHub project.",
-    "detail": "Automatically synced from GitHub.",
-    "stack": [],
+    "kind": "GITHUB · CSS",
+    "blurb": "nothing — public GitHub project.",
+    "detail": "Public GitHub repository · main branch · updated 9/30/2026.",
+    "stack": [
+      "CSS"
+    ],
     "repo": "https://github.com/b-1-o/nothing",
-    "site": null
+    "site": "https://b-1-o.github.io/nothing/"
+  },
+  {
+    "id": "04",
+    "name": "barber",
+    "icon": "scissors",
+    "kind": "GITHUB · TYPESCRIPT",
+    "blurb": "barber — public GitHub project.",
+    "detail": "Public GitHub repository · main branch · updated 9/29/2026.",
+    "stack": [
+      "TypeScript"
+    ],
+    "repo": "https://github.com/b-1-o/barber",
+    "site": "https://b-1-o.github.io/barber/"
+  },
+  {
+    "id": "05",
+    "name": "portfolio",
+    "icon": "web",
+    "kind": "GITHUB · TYPESCRIPT",
+    "blurb": "portfolio — public GitHub project.",
+    "detail": "Public GitHub repository · main branch · updated 9/28/2026.",
+    "stack": [
+      "TypeScript"
+    ],
+    "repo": "https://github.com/b-1-o/Portfolio",
+    "site": "https://portfolio-roan-eight-vxdeq92me3.vercel.app"
+  },
+  {
+    "id": "06",
+    "name": "music",
+    "icon": "music",
+    "kind": "GITHUB · CSS",
+    "blurb": "music — public GitHub project.",
+    "detail": "Public GitHub repository · main branch · updated 9/27/2026.",
+    "stack": [
+      "CSS"
+    ],
+    "repo": "https://github.com/b-1-o/music",
+    "site": "https://b-1-o.github.io/music/"
+  },
+  {
+    "id": "07",
+    "name": "build",
+    "icon": "build",
+    "kind": "GITHUB · TYPESCRIPT",
+    "blurb": "build — public GitHub project.",
+    "detail": "Public GitHub repository · main branch · updated 9/25/2026.",
+    "stack": [
+      "TypeScript"
+    ],
+    "repo": "https://github.com/b-1-o/build",
+    "site": "https://b-1-o.github.io/build/"
+  },
+  {
+    "id": "08",
+    "name": "my",
+    "icon": "web",
+    "kind": "GITHUB · TYPESCRIPT",
+    "blurb": "my — public GitHub project.",
+    "detail": "Public GitHub repository · main branch · updated 9/23/2026.",
+    "stack": [
+      "TypeScript"
+    ],
+    "repo": "https://github.com/b-1-o/my",
+    "site": "https://b-1-o.github.io/my/"
   }
 ]
