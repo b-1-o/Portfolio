@@ -29,7 +29,17 @@ jobs:
           text = re.sub(r"\s*\{ label: 'Instagram',[^\n]*\},", '', text)
           text = re.sub(
               r"\{ label: 'Telegram', href: '[^']*', note: '[^']*' \},",
-              "{ label: 'Telegram', href: 'https://t.me/blood_on_my_body', note: 'blood_on_my_body' },",
+              "{ label: 'Mail', href: 'mailto:l.biodev.l@gmail.com', note: 'l.biodev.l@gmail.com' },",
+              text,
+          )
+          text = re.sub(
+              r"\{ label: 'Mail', href: '[^']*', note: '[^']*' \},",
+              "{ label: 'Mail', href: 'mailto:l.biodev.l@gmail.com', note: 'l.biodev.l@gmail.com' },",
+              text,
+          )
+          text = re.sub(
+              r"message directly on Telegram\.",
+              "email me directly.",
               text,
           )
           text = re.sub(r"name: 'Portfolio'", "name: 'portfolio'", text)

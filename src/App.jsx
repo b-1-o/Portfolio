@@ -99,7 +99,7 @@ const socials = [
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/b1o/', note: 'b1o' },
   { label: 'Fiverr', href: 'https://www.fiverr.com/webbio/', note: 'webbio' },
   { label: 'Contra', href: 'https://contra.com/erik_868bxnxk', note: 'Erik' },
-  { label: 'Telegram', href: 'https://t.me/blood_on_my_body', note: 'blood_on_my_body' },
+  { label: 'Mail', href: 'mailto:l.biodev.l@gmail.com', note: 'l.biodev.l@gmail.com' },
 ];
 
 function ProjectPanel({ project, onClose }) {
@@ -410,7 +410,7 @@ function App() {
         <div className="connect-label">07 / CONNECT</div>
         <div>
           <h2>Find me<br /><span>online.</span></h2>
-          <p>Open to freelance and product work. Reach out on Fiverr, Contra, LinkedIn or GitHub — or message directly on Telegram.</p>
+          <p>Open to freelance and product work. Reach out on Fiverr, Contra, LinkedIn or GitHub — or email me directly.</p>
         </div>
         <ul className="social-list">
           {socials.map(s => (
