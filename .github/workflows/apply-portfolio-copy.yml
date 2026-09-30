@@ -20,6 +20,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import re
+          import json
 
           path = Path('src/App.jsx')
           text = path.read_text()
@@ -32,16 +33,31 @@ jobs:
               text,
           )
           text = re.sub(r"name: 'Portfolio'", "name: 'portfolio'", text)
-          text = re.sub(r"name: \"Portfolio\"", 'name: \"portfolio\"', text)
+          text = re.sub(r'name: "Portfolio"', 'name: "portfolio"', text)
+          text = re.sub(r"<h2>Projects</h2>", "<h2>portfolio</h2>", text)
+          text = re.sub(r"<h2>Portfolio</h2>", "<h2>portfolio</h2>", text)
 
           path.write_text(text)
+
+          auto = Path('src/projects.auto.json')
+          if auto.exists():
+              data = json.loads(auto.read_text())
+              changed = False
+              for item in data:
+                  if item.get('name') == 'Portfolio':
+                      item['name'] = 'portfolio'
+                      if isinstance(item.get('blurb'), str) and item['blurb'].startswith('Portfolio'):
+                          item['blurb'] = 'portfolio' + item['blurb'][len('Portfolio'):]
+                      changed = True
+              if changed:
+                  auto.write_text(json.dumps(data, indent=2) + '\n')
           PY
 
       - name: Commit changes
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add src/App.jsx
+          git add src/App.jsx src/projects.auto.json
           git diff --cached --quiet && exit 0
           git commit -m "Update portfolio social links and project label"
           git push

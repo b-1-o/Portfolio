@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import RippleDistortion from './RippleDistortion';
 import FlexCarousel from './FlexCarousel';
+import autoProjects from './projects.auto.json';
 
 import pageBg from '../assets/page.png';
 import sfxClick from '../assets/Cough_Nothing_Phone_2_Stock_Notification-649463-mobiles24.mp3';
@@ -65,20 +66,7 @@ const SFX = {
   error: sfxError,
 };
 
-const projects = [
-  { id: '01', name: 'music', icon: 'music', kind: 'WEB · MUSIC', blurb: 'Local-first music player with YouTube search, playlists, queue, likes and atmospheric playback controls.', detail: 'Built as a visual world around sound — history, shuffle and appearance stay in the browser with no account required.', stack: ['React', 'TypeScript', 'YouTube API', 'Web Audio'], repo: 'https://github.com/b-1-o/music', site: 'https://b-1-o.github.io/music/' },
-  { id: '02', name: 'heaven', icon: 'terminal', kind: 'WEB · TOOLING', blurb: 'Developer command center — launch workflows, tools and environments from one surface.', detail: 'A focused UI for daily developer routines: open groups of URLs, scripts and apps without leaving the browser.', stack: ['TypeScript', 'React', 'Vite'], repo: 'https://github.com/b-1-o/heaven', site: 'https://b-1-o.github.io/heaven/' },
-  { id: '03', name: 'fog', icon: 'fog', kind: 'WEB · INTERACTION', blurb: 'Layered depth and a draggable 3D carousel — the visual grammar behind atmospheric UIs.', detail: 'Interaction experiment that explores motion, opacity and perspective as a shared language across portfolio surfaces.', stack: ['React', '3D CSS', 'Motion'], repo: 'https://github.com/b-1-o/fog', site: 'https://b-1-o.github.io/fog/' },
-  { id: '04', name: 'forest', icon: 'forest', kind: 'WEB · EXPERIENCE', blurb: 'Immersive forest portfolio experiment with motion and environmental mood.', detail: 'A narrative web experience where navigation feels like walking through layers of canopy and light.', stack: ['React', 'TypeScript', 'CSS'], repo: 'https://github.com/b-1-o/forest', site: 'https://b-1-o.github.io/forest/' },
-  { id: '05', name: 'biohub', icon: 'linux', kind: 'LINUX · PRODUCTIVITY', blurb: 'Local Linux command center for apps, URL groups and repeatable workflows.', detail: 'Terminal + desktop interfaces via Python — FastAPI, Typer and PySide6 for launching real work, not demos.', stack: ['Python', 'FastAPI', 'Typer', 'PySide6'], repo: 'https://github.com/b-1-o/biohub' },
-  { id: '06', name: 'Biogram', icon: 'phone', kind: 'IOS · MESSAGING', blurb: 'Native iOS Telegram client work — builds, signing, Bazel and Telegram architecture.', detail: 'Deep dive into native mobile: configuration, signing pipelines and the structure of a large messaging codebase.', stack: ['Swift', 'iOS', 'Xcode', 'Bazel'], repo: 'https://github.com/b-1-o/Biogram-iOS-26' },
-  { id: '07', name: 's1eep', icon: 'sleep', kind: 'WEB · SURFACE', blurb: 'This site — quiet digital room with pointer-driven water distortion and low-light HUD.', detail: 'React Bits RippleDistortion, custom glass UI, Nothing Phone system sounds and a portfolio layer on top.', stack: ['React', 'WebGL', 'ogl', 'Vite'], repo: 'https://github.com/b-1-o/s1eep', site: 'https://b-1-o.github.io/s1eep/' },
-  { id: '08', name: 'barber', icon: 'scissors', kind: 'WEB · PRODUCT', blurb: 'Barbershop product surface — booking-minded UI in TypeScript.', detail: 'Clean product patterns for service businesses: services, availability and a calm conversion-focused layout.', stack: ['TypeScript', 'React'], repo: 'https://github.com/b-1-o/barber' },
-  { id: '09', name: 'my', icon: 'web', kind: 'WEB · PORTFOLIO', blurb: 'Earlier personal space with spiral carousel and image-driven navigation.', detail: 'Atmospheric portfolio built around depth, motion and a foggy visual rhythm.', stack: ['React', 'TypeScript', 'CSS', 'Motion'], repo: 'https://github.com/b-1-o/my', site: 'https://b-1-o.github.io/my/' },
-  { id: '10', name: 'Benzola', icon: 'brand', kind: 'WEB · BRAND', blurb: 'Brand-forward web surface in TypeScript with deliberate motion.', detail: 'Experiment in product identity — typography, pacing and restrained interaction.', stack: ['TypeScript', 'React'], repo: 'https://github.com/b-1-o/Benzola' },
-  { id: '11', name: 'build', icon: 'build', kind: 'WEB · SYSTEMS', blurb: 'Build tooling and system surfaces for shipping faster.', detail: 'Internal-facing tools that keep deployment and local workflows predictable.', stack: ['TypeScript', 'Vite'], repo: 'https://github.com/b-1-o/build' },
-  { id: '12', name: 'b1o-remote-agent', icon: 'agent', kind: 'PYTHON · AGENT', blurb: 'Remote agent experiments in Python for automation and tooling.', detail: 'Exploring agent loops, remote control surfaces and practical automation helpers.', stack: ['Python'], repo: 'https://github.com/b-1-o/b1o-remote-agent' },
-];
+const projects = autoProjects;
 
 const services = [
   { title: 'Product UI', text: 'Interfaces for real products — dashboards, booking flows, music tools and command centers with clear hierarchy.' },

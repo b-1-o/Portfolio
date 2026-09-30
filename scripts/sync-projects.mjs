@@ -16,6 +16,11 @@ const allowedRepos = new Set([
   'build',
 ]);
 
+// Display-name overrides (repo name on GitHub stays as-is).
+const displayNames = {
+  Portfolio: 'portfolio',
+};
+
 async function github(path) {
   const response = await fetch(`https://api.github.com${path}`, {
     headers: {
@@ -69,13 +74,14 @@ for (const repo of publicRepos) {
     }
   }
 
-  const description = repo.description?.trim() || `${repo.name} — public GitHub project.`;
+  const displayName = displayNames[repo.name] || repo.name;
+  const description = repo.description?.trim() || `${displayName} — public GitHub project.`;
   const topics = Array.isArray(repo.topics) ? repo.topics.slice(0, 5) : [];
   const stack = [repo.language, ...topics].filter(Boolean).filter((value, index, values) => values.indexOf(value) === index);
 
   projects.push({
     id: String(projects.length + 1).padStart(2, '0'),
-    name: repo.name,
+    name: displayName,
     icon: iconFor(repo.name),
     kind: languageLabel(repo.language),
     blurb: description,

@@ -111,10 +111,10 @@
   },
   {
     "id": "11",
-    "name": "Portfolio",
+    "name": "portfolio",
     "icon": "web",
     "kind": "GITHUB · PROJECT",
-    "blurb": "Portfolio — GitHub project.",
+    "blurb": "portfolio — GitHub project.",
     "detail": "Automatically synced from GitHub.",
     "stack": [],
     "repo": "https://github.com/b-1-o/Portfolio",
