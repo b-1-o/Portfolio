@@ -1,19 +1,6 @@
 [
   {
     "id": "01",
-    "name": "s1eep",
-    "icon": "sleep",
-    "kind": "GITHUB · JAVASCRIPT",
-    "blurb": "s1eep — public GitHub project.",
-    "detail": "Public GitHub repository · main branch · updated 9/30/2026.",
-    "stack": [
-      "JavaScript"
-    ],
-    "repo": "https://github.com/b-1-o/s1eep",
-    "site": "http://b-1-o.github.io/s1eep/"
-  },
-  {
-    "id": "02",
     "name": "heaven",
     "icon": "terminal",
     "kind": "GITHUB · TYPESCRIPT",
@@ -26,7 +13,7 @@
     "site": "https://b-1-o.github.io/heaven/"
   },
   {
-    "id": "03",
+    "id": "02",
     "name": "nothing",
     "icon": "phone",
     "kind": "GITHUB · CSS",
@@ -39,7 +26,7 @@
     "site": "https://b-1-o.github.io/nothing/"
   },
   {
-    "id": "04",
+    "id": "03",
     "name": "barber",
     "icon": "scissors",
     "kind": "GITHUB · TYPESCRIPT",
@@ -52,20 +39,7 @@
     "site": "https://b-1-o.github.io/barber/"
   },
   {
-    "id": "05",
-    "name": "portfolio",
-    "icon": "web",
-    "kind": "GITHUB · TYPESCRIPT",
-    "blurb": "portfolio — public GitHub project.",
-    "detail": "Public GitHub repository · main branch · updated 9/28/2026.",
-    "stack": [
-      "TypeScript"
-    ],
-    "repo": "https://github.com/b-1-o/Portfolio",
-    "site": "https://portfolio-roan-eight-vxdeq92me3.vercel.app"
-  },
-  {
-    "id": "06",
+    "id": "04",
     "name": "music",
     "icon": "music",
     "kind": "GITHUB · CSS",
@@ -78,7 +52,7 @@
     "site": "https://b-1-o.github.io/music/"
   },
   {
-    "id": "07",
+    "id": "05",
     "name": "build",
     "icon": "build",
     "kind": "GITHUB · TYPESCRIPT",
@@ -91,7 +65,7 @@
     "site": "https://b-1-o.github.io/build/"
   },
   {
-    "id": "08",
+    "id": "06",
     "name": "my",
     "icon": "web",
     "kind": "GITHUB · TYPESCRIPT",
