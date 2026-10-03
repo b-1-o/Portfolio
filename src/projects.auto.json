@@ -27,19 +27,6 @@
   },
   {
     "id": "03",
-    "name": "barber",
-    "icon": "scissors",
-    "kind": "GITHUB · TYPESCRIPT",
-    "blurb": "barber — public GitHub project.",
-    "detail": "Public GitHub repository · main branch · updated 9/29/2026.",
-    "stack": [
-      "TypeScript"
-    ],
-    "repo": "https://github.com/b-1-o/barber",
-    "site": "https://b-1-o.github.io/barber/"
-  },
-  {
-    "id": "04",
     "name": "music",
     "icon": "music",
     "kind": "GITHUB · CSS",
@@ -52,20 +39,7 @@
     "site": "https://b-1-o.github.io/music/"
   },
   {
-    "id": "05",
-    "name": "build",
-    "icon": "build",
-    "kind": "GITHUB · TYPESCRIPT",
-    "blurb": "build — public GitHub project.",
-    "detail": "Public GitHub repository · main branch · updated 9/25/2026.",
-    "stack": [
-      "TypeScript"
-    ],
-    "repo": "https://github.com/b-1-o/build",
-    "site": "https://b-1-o.github.io/build/"
-  },
-  {
-    "id": "06",
+    "id": "04",
     "name": "my",
     "icon": "web",
     "kind": "GITHUB · TYPESCRIPT",
